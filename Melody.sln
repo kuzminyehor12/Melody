@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Melody.Server", "Melody.Server\Melody.Server.csproj", "{B4E4D6DA-4B90-4058-8939-2F7CCECA4A58}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "melody.client", "melody.client\melody.client.esproj", "{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Melody.Services", "Melody.Services\Melody.Services.csproj", "{F3206C99-8862-4897-B624-20C888B2A024}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Melody.BusinessLayer", "Melody.BusinessLayer\Melody.BusinessLayer.csproj", "{FD09C240-D0CF-420A-8B02-121792D4C565}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Melody.DataLayer", "Melody.DataLayer\Melody.DataLayer.csproj", "{38216A5E-CC51-45E1-8E70-25339CE4E259}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Melody.DataLayer.EFCore", "Melody.DataLayer.EFCore\Melody.DataLayer.EFCore.csproj", "{B12B52EE-2700-4D3C-BE40-84BB0285E8E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Melody.Shared", "Melody.Shared\Melody.Shared.csproj", "{4BDA8545-E216-43D0-AF36-B08490B4A81E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4E4D6DA-4B90-4058-8939-2F7CCECA4A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E4D6DA-4B90-4058-8939-2F7CCECA4A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E4D6DA-4B90-4058-8939-2F7CCECA4A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E4D6DA-4B90-4058-8939-2F7CCECA4A58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ABF42B2-F47C-4EFD-B28F-396CE12AF9E7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F3206C99-8862-4897-B624-20C888B2A024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3206C99-8862-4897-B624-20C888B2A024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3206C99-8862-4897-B624-20C888B2A024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3206C99-8862-4897-B624-20C888B2A024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD09C240-D0CF-420A-8B02-121792D4C565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD09C240-D0CF-420A-8B02-121792D4C565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD09C240-D0CF-420A-8B02-121792D4C565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD09C240-D0CF-420A-8B02-121792D4C565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38216A5E-CC51-45E1-8E70-25339CE4E259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38216A5E-CC51-45E1-8E70-25339CE4E259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38216A5E-CC51-45E1-8E70-25339CE4E259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38216A5E-CC51-45E1-8E70-25339CE4E259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12B52EE-2700-4D3C-BE40-84BB0285E8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12B52EE-2700-4D3C-BE40-84BB0285E8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12B52EE-2700-4D3C-BE40-84BB0285E8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12B52EE-2700-4D3C-BE40-84BB0285E8E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BDA8545-E216-43D0-AF36-B08490B4A81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BDA8545-E216-43D0-AF36-B08490B4A81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BDA8545-E216-43D0-AF36-B08490B4A81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BDA8545-E216-43D0-AF36-B08490B4A81E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1015C9B2-91AC-465B-A6C2-96447009537B}
+	EndGlobalSection
+EndGlobal

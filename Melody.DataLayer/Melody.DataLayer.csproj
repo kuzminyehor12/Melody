@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Melody.DataLayer.EFCore\Melody.DataLayer.EFCore.csproj" />
+    <ProjectReference Include="..\Melody.Shared\Melody.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
