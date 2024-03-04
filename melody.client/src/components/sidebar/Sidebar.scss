@@ -1,0 +1,61 @@
+@import '../../theme.scss';
+
+.Sidebar {
+    width: 228px;
+    height: 100%;
+    background: $greydark;
+    display: flex;
+    flex-direction: column;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 0.8rem;
+        font-size: 24px;
+
+        svg {
+            max-width: 130px;
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+    }
+
+    .nav-links {
+        padding: 1rem;
+
+        ul {
+            margin: 0;
+            padding: 0;
+    
+            li {
+                display: flex;
+                align-items: center;
+                color: $greytext;
+                list-style-type: none;
+                border-radius: 5px;
+                padding: 0.8rem;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+    
+                &:hover {
+                    color: white;
+                }
+    
+                &.active {
+                    background: $greylighter;
+                }
+                
+                svg {
+                    width: 25px;
+                    height: 25px;
+                    fill: white;
+                }
+    
+                span {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}

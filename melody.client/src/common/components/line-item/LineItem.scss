@@ -1,0 +1,17 @@
+@import '../../../theme.scss';
+
+.content {
+    width: 100%;
+
+    h1 {
+        padding: 1.5rem 0;
+        font-size: 1.8rem;
+    }
+
+    .card-line {
+        padding-bottom: 1.8rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
