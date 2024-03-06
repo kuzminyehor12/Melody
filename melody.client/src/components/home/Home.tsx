@@ -6,6 +6,7 @@ const Home: React.FunctionComponent = () => {
         <div className='Home'>
             <LineItem title='Uniquely yours' cards={[
                 {
+                    id: '1',
                     title: 'Liked Songs',
                     imageUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
                     description: 'Music to help you concentrate for...'
@@ -13,21 +14,25 @@ const Home: React.FunctionComponent = () => {
             ]} />
             <LineItem title='Focus' cards={[
                 {
+                    id: '2',
                     title: 'Music for concentration',
                     imageUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
                     description: ''
                 },
                 {
+                    id: '3',
                     title: 'Music for concentration',
                     imageUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
                     description: ''
                 },
                 {
+                    id: '4',
                     title: 'Music for concentration',
                     imageUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
                     description: ''
                 },
                 {
+                    id: '5',
                     title: 'Music for concentration',
                     imageUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
                     description: ''

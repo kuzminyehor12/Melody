@@ -12,7 +12,7 @@ const LineItem: React.FunctionComponent<LineItemProps> = ({ title, cards }: Line
         <div className='content'>
             <h1>{ title }</h1>
             <div className='card-line'>
-                {cards.map(c => <CardItem card={c} />)}
+                {cards.map((c, idx) => <CardItem card={c} key={idx}/>)}
             </div>
         </div>
     );

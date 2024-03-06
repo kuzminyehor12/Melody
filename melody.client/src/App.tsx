@@ -1,9 +1,17 @@
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.scss';
 import Home from './components/home/Home';
 import Player from './components/player/Player';
 import Sidebar from './components/sidebar/Sidebar';
+import Search from './components/search/Search';
+import MyLibrary from './components/my-library/MyLibrary';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import SearchIcon from '@mui/icons-material/Search';
 
 const App: React.FunctionComponent = () => {
+    const location = useLocation()
+
     return (
         <div className='wrapper'>
             <div className='App'>
@@ -11,9 +19,30 @@ const App: React.FunctionComponent = () => {
                 <div className="scroll-wrapper">
                     <div className='app-content'>
                         <div className='upper-nav'>
-                            Dummy text
+                            <div className="chevron-nav">
+                                <div className="chevron">
+                                    <ChevronLeftIcon />
+                                </div>
+                                <div className="chevron">
+                                    <ChevronRightIcon />
+                                </div>
+                            </div>
+                            <div className="searchbar">
+                                <div className="search-icon">
+                                    <SearchIcon />
+                                </div>
+                                <input 
+                                    type="text" 
+                                    className="search-text" 
+                                    placeholder={!location.pathname.includes('search') ? 'Go to search' : 'What do you want to play?'}
+                                    disabled={!location.pathname.includes('search')}/>
+                            </div>
                         </div>
-                        <Home />
+                        <Routes>
+                            <Route path='/' element={<Home />}/>
+                            <Route path='/search' element={<Search />}/>
+                            <Route path='/my-library' element={<MyLibrary />}/>
+                        </Routes>
                     </div>
                 </div>
             </div>

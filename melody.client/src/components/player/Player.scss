@@ -1,10 +1,133 @@
 @import '../../theme.scss';
 
-.music-controls {
-    background: $greylighter;
-    text-align: center;
+.Player {
+    width: 100%;
     height: 90px;
+    padding: 1rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    background: $greylight;
+    border: 2px solid $greydark;
+
+    .player-info {
+        flex: 0.3;
+        display: flex;
+
+        .item-img {
+            padding: 0.8rem;
+
+            img {
+                width: 50px;
+                height: 50px;
+                margin: auto;
+                object-fit: cover;
+            }
+        }
+
+        .item-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .item-title {
+                font-size: 1rem;
+                text-transform: uppercase;
+            }
+
+            .item-author {
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .player-controls {
+        flex: 0.7;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 22.5%;
+
+        .control-elements {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.5rem;
+
+            svg {
+                fill: white;
+                width: 30px;
+                height: 30px;
+                opacity: 0.8;
+            }
+
+            .skip-prev-btn {
+                margin-right: 20px;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            .skip-next-btn {
+                margin-left: 20px;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            .play-btn {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                overflow: hidden;
+                display: flex;
+                background: $purplemain;
+                opacity: 1;
+
+                svg {
+                    margin: auto;
+                    opacity: 1;
+                }
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        .player-nav-wrapper {
+            width: 70%;
+            display: flex;
+            align-items: center;
+            column-gap: 10px;
+
+            .player-nav {
+                width: 100%;
+                background-color: rgba(119, 119, 119, 0.781);
+                height: 5px;
+                border-radius: 30px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                
+                .nav-wrapper {
+                    width: 100%;
+                    height: 100%;
+
+                    .seek-bar{
+                        width: 0;
+                        height: 100%;
+                        background: $purplemain;
+                        border-radius: 30px;
+                    }
+                }
+            }
+        }
+    }
 }

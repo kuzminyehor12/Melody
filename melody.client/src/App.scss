@@ -9,10 +9,10 @@
     .App {
         display: flex;
         height: calc(100vh - 90px);
-        background: $greylight;
+        background: linear-gradient($purplemain, $greylight);
 
         .app-content {
-            background: $greynav;
+            background: $greylight;
             height: 56px;
             width: 100%;
             padding: 0.5rem 2rem;
@@ -22,6 +22,65 @@
                 height: 100%;
                 display: flex;
                 align-items: center;
+                justify-content: flex-start;
+                column-gap: 10px;
+
+                .chevron-nav {
+                    width: 100px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    column-gap: 10px;
+
+                    .chevron {
+                        border-radius: 50%;
+                        background: $greydark;
+                        width: 30px;
+                        height: 30px;
+
+                        svg {
+                            width: 30px;
+                            height: 30px;
+                            fill: white;
+                            margin: auto;
+                        }
+                    }
+                }
+
+                .searchbar {
+                    width: 40%;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    column-gap: 2px;
+                    background: $greylight;
+                    border-radius: 500px;
+                    border: 0.5px solid white;
+
+                    .search-icon {
+                        width: 30px;
+                        height: 30px;
+                        margin-top: 5px;
+                        margin-left: 5px;
+
+                        svg {
+                            width: 25px;
+                            height: 25px;
+                            fill: white;
+                            margin: auto;
+                        }
+                    }
+
+                    .search-text {
+                        width: 85%;
+                        height: 100%;
+                        outline: none;
+                        background: inherit;
+                        border: 0;
+                        color: white;
+                    }
+                }
             }
         }
     }

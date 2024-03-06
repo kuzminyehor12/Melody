@@ -3,8 +3,15 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import DefaultLink from '../../common/components/default-link/DefaultLink';
 
 const Sidebar: React.FunctionComponent = () => {
+    const doActive = (e: React.MouseEvent<HTMLLIElement>) => {
+        const links = document.querySelectorAll('li');
+        links.forEach(a => a.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+    }
+
     return (
         <div className='Sidebar'>
             <div className="logo">
@@ -13,9 +20,15 @@ const Sidebar: React.FunctionComponent = () => {
             <hr />
             <div className="nav-links">
                 <ul>
-                    <li className='active'><HomeIcon /> <span>Home</span></li>
-                    <li><SearchIcon /> <span>Search</span></li>
-                    <li><LibraryMusicIcon /> <span>My Library</span></li>
+                    <DefaultLink to='/'>
+                        <li onClick={doActive}><HomeIcon /> <span>Home</span></li>
+                    </DefaultLink>
+                    <DefaultLink to='/search'>
+                        <li onClick={doActive}><SearchIcon /> <span>Search</span></li>
+                    </DefaultLink>
+                    <DefaultLink to='/my-library'>
+                        <li onClick={doActive}><LibraryMusicIcon /> <span>My Library</span></li>
+                    </DefaultLink>
                 </ul>
             </div>
             <hr />
