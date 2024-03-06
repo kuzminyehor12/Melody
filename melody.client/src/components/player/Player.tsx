@@ -109,14 +109,14 @@ const Player: React.FunctionComponent = () => {
     return (
         state?.current && <div className='Player'>
             <audio 
-                src='https://cdns-preview-7.dzcdn.net/stream/c-7347e9b2b7eb3157b9fd696d01dcb0b5-7.mp3' 
+                src={state.current.audioSrc}
                 hidden 
                 ref={audioRef}
                 onTimeUpdate={onPlaying}
             />
             <div className="player-info">
                 <div className="item-img">
-                    <img src="https://misc.scdn.co/liked-songs/liked-songs-300.png" alt="Audio Image" />
+                    <img src={state.current.imageSrc} alt="Audio Image" />
                 </div>
                 <div className="item-text">
                     <p className='item-title'>{state.current.title}</p>
@@ -138,7 +138,7 @@ const Player: React.FunctionComponent = () => {
                             <div className="seek-bar" style={{ width: `${(state.current.progress ?? 0) / (state.current.duration ?? 0) * 100 + '%'}`}}/>
                         </div>
                     </div>
-                    <span>{toDurationString(state.current.duration ?? 0)}</span>
+                    <span>{toDurationString(Number.isNaN(state.current.duration) ? 0 : (state.current.duration ?? 0))}</span>
                 </div>
             </div>
         </div>

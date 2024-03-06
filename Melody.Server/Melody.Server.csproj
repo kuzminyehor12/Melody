@@ -19,9 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Melody.BusinessLayer\Melody.BusinessLayer.csproj" />
     <ProjectReference Include="..\melody.client\melody.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\Melody.Services\Melody.Services.csproj" />
   </ItemGroup>
 
 </Project>

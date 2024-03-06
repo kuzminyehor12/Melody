@@ -5,7 +5,7 @@ namespace Melody.BusinessLayer.Interfaces
 {
     public interface ISearchService
     {
-        public Task<IEnumerable<BaseDto>> SearchItemAsync(SearchItemRequest request, CancellationToken cancellationToken = default);
+        public Task<dynamic> SearchItemAsync(SearchItemRequest request, CancellationToken cancellationToken = default);
 
         public Task<IEnumerable<DisplayableItemDto>> GetDisplayableItemsAsync(CancellationToken cancellationToken = default); // genres + topics + tags
     }

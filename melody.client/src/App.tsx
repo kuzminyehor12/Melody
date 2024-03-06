@@ -8,9 +8,22 @@ import MyLibrary from './components/my-library/MyLibrary';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SearchIcon from '@mui/icons-material/Search';
+import { useGlobalContext } from './contexts/GlobalContext';
+import { ChangeEvent } from 'react';
 
 const App: React.FunctionComponent = () => {
-    const location = useLocation()
+    const location = useLocation();
+    const { state, setState } = useGlobalContext() ?? { };
+
+    const setSearchItem = (e: ChangeEvent<HTMLInputElement>) => {
+        if (setState) {
+            setState({
+                ...state,
+                isPlaying: state?.isPlaying ?? false,
+                searchString: e.target.value
+            });
+        }
+    }
 
     return (
         <div className='wrapper'>
@@ -35,7 +48,8 @@ const App: React.FunctionComponent = () => {
                                     type="text" 
                                     className="search-text" 
                                     placeholder={!location.pathname.includes('search') ? 'Go to search' : 'What do you want to play?'}
-                                    disabled={!location.pathname.includes('search')}/>
+                                    disabled={!location.pathname.includes('search')}
+                                    onChange={setSearchItem}/>
                             </div>
                         </div>
                         <Routes>

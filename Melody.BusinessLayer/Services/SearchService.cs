@@ -8,13 +8,11 @@ namespace Melody.BusinessLayer.Services
 {
     public class SearchService : ISearchService
     {
-        private readonly RepositoryContext _context;
-        private readonly IMusicApiClient _apiClient;
+        private readonly IDeezerApiClient _deezerApiClient;
 
-        public SearchService(RepositoryContext context, IMusicApiClient apiClient)
+        public SearchService(IDeezerApiClient deezerApiClient)
         {
-            _context = context;
-            _apiClient = apiClient;
+            _deezerApiClient = deezerApiClient;
         }
 
         public Task<IEnumerable<DisplayableItemDto>> GetDisplayableItemsAsync(CancellationToken cancellationToken = default)
@@ -22,9 +20,10 @@ namespace Melody.BusinessLayer.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BaseDto>> SearchItemAsync(SearchItemRequest request, CancellationToken cancellationToken = default)
+        public async Task<dynamic> SearchItemAsync(SearchItemRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var response = await _deezerApiClient.SearchItemsAsync(request.SearchString, cancellationToken);
+            return response;
         }
     }
 }

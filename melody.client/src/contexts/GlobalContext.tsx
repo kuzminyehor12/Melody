@@ -5,6 +5,7 @@ interface GlobalState {
     isPlaying: boolean;
     current?: AudioItem;
     queue?: AudioItem[];
+    searchString: string;
 }
 
 interface GlobalContextType {
@@ -24,7 +25,8 @@ export const GlobalProvider: React.FunctionComponent<PropsWithChildren> = ({ chi
         title: 'Another One Bites The Dust',
         author: 'Queen',
         imageSrc: 'https://misc.scdn.co/liked-songs/liked-songs-300.png'
-    }
+    },
+    searchString: ''
   });
 
   return (
