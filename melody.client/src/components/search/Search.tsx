@@ -12,7 +12,7 @@ const Search: React.FunctionComponent = () => {
         const fetchAudios = async () => {
             const response = await fetch('https://localhost:7050/api/search?query=' + state?.searchString);
             const json = await response.json();
-            setAudios(json.data.map(function (a: any): AudioItem {
+            setAudios(json.data?.map(function (a: any): AudioItem {
                 return {
                     id: a.id,
                     title: a.title,
@@ -22,7 +22,7 @@ const Search: React.FunctionComponent = () => {
                     duration: a.duration,
                     progress: 0
                 };
-            }));
+            }) ?? []);
         }
 
         fetchAudios();

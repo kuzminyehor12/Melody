@@ -10,6 +10,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from './contexts/GlobalContext';
 import { ChangeEvent } from 'react';
+import Playlist from './components/playlist/Playlist';
 
 const App: React.FunctionComponent = () => {
     const location = useLocation();
@@ -56,6 +57,7 @@ const App: React.FunctionComponent = () => {
                             <Route path='/' element={<Home />}/>
                             <Route path='/search' element={<Search />}/>
                             <Route path='/my-library' element={<MyLibrary />}/>
+                            <Route path='/playlist/:id' element={<Playlist />}/>
                         </Routes>
                     </div>
                 </div>
