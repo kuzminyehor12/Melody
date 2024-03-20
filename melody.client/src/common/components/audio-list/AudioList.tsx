@@ -25,7 +25,12 @@ const AudioList: React.FunctionComponent<AudioListProps> = ({ audios }) => {
 
     return (
         <div className='audio-list'>
-            {audios.map(a => <AudioListItem audioItem={a} key={a.id} onClick={() => setQueue(a.id)}/>)}
+            {audios.map(a => 
+                <AudioListItem 
+                    audioItem={a}
+                    key={a.id} 
+                    onClick={() => setQueue(a.id)}
+                />)}
         </div>
     );
 }

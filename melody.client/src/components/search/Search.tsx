@@ -3,6 +3,7 @@ import { useGlobalContext } from '../../contexts/GlobalContext';
 import './Search.scss';
 import { AudioItem } from '../../common/models/AudioItem';
 import AudioList from '../../common/components/audio-list/AudioList';
+import api from '../../config/api-config';
 
 const Search: React.FunctionComponent = () => {
     const { state } = useGlobalContext() ?? { };
@@ -10,7 +11,7 @@ const Search: React.FunctionComponent = () => {
 
     useEffect(() => {
         const fetchAudios = async () => {
-            const response = await fetch('https://localhost:7050/api/search?query=' + state?.searchString);
+            const response = await fetch(`${api.baseUrl}/search?query=` + state?.searchString);
             const json = await response.json();
             setAudios(json.data?.map(function (a: any): AudioItem {
                 return {

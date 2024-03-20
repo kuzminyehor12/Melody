@@ -4,6 +4,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import DefaultLink from '../../common/components/default-link/DefaultLink';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const Sidebar: React.FunctionComponent = () => {
     const doActive = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -32,6 +34,12 @@ const Sidebar: React.FunctionComponent = () => {
                 </ul>
             </div>
             <hr />
+            <div className='nav-links'>
+                <ul>
+                    <li><AddCircleOutlineIcon /> <span>Create Playlist</span></li>
+                    <li><FileUploadIcon /> <span>Upload Audio</span></li>
+                </ul>
+            </div>
         </div>
     );
 }

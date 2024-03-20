@@ -1,3 +1,4 @@
+import { useGlobalContext } from '../../../contexts/GlobalContext';
 import { AudioItem } from '../../models/AudioItem';
 import { toDurationString } from '../../utils/stringUtils';
 import './AudioListItem.scss';
@@ -9,8 +10,12 @@ type AudioListItemProps = {
 }
 
 const AudioListItem: React.FunctionComponent<AudioListItemProps> = ({ audioItem, onClick }) => {
+    const { state } = useGlobalContext() ?? { };
+
+    const isCurrentItem = state?.current?.id === audioItem.id;
+
     return (
-        <div className='audio-list-item' onClick={onClick}>
+        <div className={`audio-list-item ${isCurrentItem ? 'active' : ''}`} onClick={onClick}>
             <div className="audio-info">
                 <div className="audio-icon">
                     <MusicNoteIcon />
