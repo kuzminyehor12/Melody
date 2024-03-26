@@ -1,4 +1,5 @@
 ﻿using Melody.DataLayer.EFCore.Entities;
+using Melody.DataLayer.EFCore.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Melody.DataLayer.EFCore.Infrastructure
@@ -15,8 +16,6 @@ namespace Melody.DataLayer.EFCore.Infrastructure
 
         public virtual DbSet<GenreEntity> Genres { get; set; }
 
-        public virtual DbSet<TopicEntity> Topics { get; set; }
-
         public virtual DbSet<PlaylistEntity> Playlists { get; set; }
 
         public virtual DbSet<CreatorEntity> Creators { get; set; }
@@ -24,6 +23,8 @@ namespace Melody.DataLayer.EFCore.Infrastructure
         public virtual DbSet<AudioBookEntity> AudioBooks { get; set; }
 
         public virtual DbSet<AudioBookCollectionEntity> AudioBookCollections { get; set; }
+
+        public virtual DbSet<TagEntity> Tags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,6 +34,16 @@ namespace Melody.DataLayer.EFCore.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.BuildTracks();
+            modelBuilder.BuildPlaylists();
+            modelBuilder.BuildCreators();
+            modelBuilder.BuildUsers();
+            modelBuilder.BuildPodcasts();
+            modelBuilder.BuildGenres();
+            modelBuilder.BuildAudioBooks();
+            modelBuilder.BuildTags();
+            modelBuilder.BuildAudioBookCollections();
         }
     }
 }

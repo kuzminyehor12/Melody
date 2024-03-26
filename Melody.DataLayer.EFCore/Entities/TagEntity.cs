@@ -2,8 +2,6 @@
 {
     public class TagEntity : DisplayableEntity
     {
-        public virtual ICollection<TrackEntity> Tracks { get; set; }
-
-        public virtual ICollection<PodcastEntity> Podcasts { get; set; }
+        public virtual ICollection<PlaylistEntity> TaggedPlaylists { get; set; }
     }
 }

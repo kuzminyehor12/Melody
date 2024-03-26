@@ -6,7 +6,7 @@
 
         public string? Coversheet { get; set; }
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public DateTime PublishedAt { get; set; } = DateTime.Now;
 
@@ -15,5 +15,7 @@
         public CreatorEntity Creator { get; set; }
 
         public virtual ICollection<AudioBookEntity> AudioBooks { get; set; }
+
+        public virtual ICollection<UserEntity> Followers { get; set; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class GenreEntity : DisplayableEntity
     {
-        public virtual ICollection<TrackEntity> Tracks { get; set; }
+        public virtual ICollection<TrackEntity> GenredTracks { get; set; }
     }
 }

@@ -11,5 +11,7 @@
         public CreatorEntity Creator { get; set; }
 
         public virtual ICollection<UserEntity> Followers { get; set; }
+
+        public virtual ICollection<TrackEntity> AlbumedTracks { get; set; }
     }
 }

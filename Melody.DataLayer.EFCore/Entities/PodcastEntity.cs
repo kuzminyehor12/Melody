@@ -2,8 +2,8 @@
 {
     public class PodcastEntity : AudioItemEntity
     {
-        public Guid TopicId { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-        public TopicEntity Topic { get; set; }
+        public virtual ICollection<UserEntity> Followers { get; set; }
     }
 }

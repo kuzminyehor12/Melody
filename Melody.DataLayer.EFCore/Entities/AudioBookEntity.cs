@@ -2,12 +2,12 @@
 {
     public class AudioBookEntity : AudioItemEntity
     {
-        public string AuthorName { get; set; }
-
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public Guid? AudioBookCollectionId { get; set; }
 
         public AudioBookCollectionEntity AudioBookCollection { get; set; }
+
+        public virtual ICollection<UserEntity> Followers { get; set; }
     }
 }

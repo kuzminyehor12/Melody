@@ -10,10 +10,17 @@
 
         public bool IsPublic { get; set; } = true;
 
+        // SongBased, AudioBookBased, PodcastBased, Unknown
+        public short Type { get; set; }
+
         public Guid CreatorId { get; set; }
 
         public CreatorEntity Creator { get; set; }
 
-        public virtual ICollection<TrackEntity> Tracks { get; set; }
+        public virtual ICollection<TrackEntity> PlaylistedTracks { get; set; }
+
+        public virtual ICollection<TagEntity> Tags { get; set; }
+
+        public virtual ICollection<UserEntity> Followers { get; set; }
     }
 }

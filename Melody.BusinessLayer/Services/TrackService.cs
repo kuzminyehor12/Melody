@@ -82,9 +82,9 @@ namespace Melody.BusinessLayer.Services
             var trackToInclude = await _context.Tracks.FirstAsync(t => t.Id == request.TrackId, cancellationToken: cancellationToken);
 
             IEnumerable<string> includeProperties = new List<string>
-                {
-                    $"{nameof(Playlist.Tracks)}"
-                };
+            {
+               $"{nameof(Playlist.Tracks)}"
+            };
 
             var result = await _context.Playlists.UpdateAsync(
                 p => p.Id == request.PlaylistId,
