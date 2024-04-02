@@ -2,7 +2,8 @@
 {
     public class Podcast : AudioItem
     {
-        public Guid TopicId { get; set; }
-        public Topic Topic { get; set; }
+        public string Description { get; set; }
+
+        public virtual ICollection<User> Followers { get; set; }
     }
 }

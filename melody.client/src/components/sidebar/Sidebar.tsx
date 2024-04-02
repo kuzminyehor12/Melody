@@ -6,12 +6,20 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import DefaultLink from '../../common/components/default-link/DefaultLink';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useState } from 'react';
+import UploadAudioForm from '../upload-audio-form/UploadAudioForm';
 
 const Sidebar: React.FunctionComponent = () => {
+    const [openUpload, setOpenUpload] = useState(false);
+
     const doActive = (e: React.MouseEvent<HTMLLIElement>) => {
         const links = document.querySelectorAll('li');
         links.forEach(a => a.classList.remove('active'));
         e.currentTarget.classList.add('active');
+    }
+    
+    const openUploadAudioForm = () => {
+        setOpenUpload(true);
     }
 
     return (
@@ -37,7 +45,8 @@ const Sidebar: React.FunctionComponent = () => {
             <div className='nav-links'>
                 <ul>
                     <li><AddCircleOutlineIcon /> <span>Create Playlist</span></li>
-                    <li><FileUploadIcon /> <span>Upload Audio</span></li>
+                    <li onClick={openUploadAudioForm}><FileUploadIcon /> <span>Upload Audio</span></li>
+                    <UploadAudioForm opened={openUpload} setOpened={setOpenUpload}/>
                 </ul>
             </div>
         </div>

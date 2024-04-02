@@ -25,12 +25,12 @@ namespace Melody.BusinessLayer.Services
 
             IEnumerable<string> includeProperties = new List<string>
             { 
-                    $"{nameof(Playlist.Tracks)}"
+                    $"{nameof(Playlist.PlaylistedTracks)}"
             };
 
             var result = await _context.Playlists.UpdateAsync(
                 p => p.Id == request.PlaylistId,
-                p => p.Tracks.Remove(trackToExclude),
+                p => p.PlaylistedTracks.Remove(trackToExclude),
                 includeProperties,
                 cancellationToken: cancellationToken);
 
@@ -83,12 +83,12 @@ namespace Melody.BusinessLayer.Services
 
             IEnumerable<string> includeProperties = new List<string>
             {
-               $"{nameof(Playlist.Tracks)}"
+               $"{nameof(Playlist.PlaylistedTracks)}"
             };
 
             var result = await _context.Playlists.UpdateAsync(
                 p => p.Id == request.PlaylistId,
-                p => p.Tracks.Add(trackToInclude),
+                p => p.PlaylistedTracks.Add(trackToInclude),
                 includeProperties,
                 cancellationToken: cancellationToken);
 

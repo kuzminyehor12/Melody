@@ -15,5 +15,7 @@
         public Creator Creator { get; set; }
 
         public virtual ICollection<AudioBook> AudioBooks { get; set; }
+
+        public virtual ICollection<User> Followers { get; set; }
     }
 }

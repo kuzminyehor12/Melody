@@ -14,14 +14,16 @@
 
         public DateTime RegisteredAt { get; set; }
 
-        public virtual ICollection<User> Managers { get; set; }
-
-        public virtual ICollection<User> Followers { get; set; }
+        public User User { get; set; }
 
         public virtual ICollection<Podcast> Podcasts { get; set; }
 
         public virtual ICollection<Track> Tracks { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
+
+        public virtual ICollection<AudioBook> AudioBooks { get; set; }
+
+        public virtual ICollection<AudioBookCollection> AudioBookCollections { get; set; }
     }
 }

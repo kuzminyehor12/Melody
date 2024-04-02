@@ -12,6 +12,14 @@
 
         public Creator Creator { get; set; }
 
-        public virtual ICollection<Track> Tracks { get; set; }
+        public bool IsPublic { get; set; } = true;
+
+        public short Type { get; set; }
+
+        public virtual ICollection<Track> PlaylistedTracks { get; set; }
+
+        public virtual ICollection<User> Followers { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }
