@@ -9,8 +9,6 @@ namespace Melody.BusinessLayer.Interfaces
 
         Task<Result> FollowPlaylistAsync(FollowPlaylistRequest request, CancellationToken cancellationToken = default);
 
-        Task<Result> FollowCreatorAsync(FollowCreatorRequest request, CancellationToken cancellationToken = default);
-
         Task<Result> FollowPodcastAsync(FollowPodcastRequest request, CancellationToken cancellationToken = default);
 
         Task<Result> FollowAlbumAsync(FollowAlbumRequest request, CancellationToken cancellationToken = default);
@@ -18,8 +16,6 @@ namespace Melody.BusinessLayer.Interfaces
         Task<Result> UnfollowTrackAsync(UnfollowTrackRequest request, CancellationToken cancellationToken = default);
 
         Task<Result> UnfollowPlaylistAsync(UnfollowPlaylistRequest request, CancellationToken cancellationToken = default);
-
-        Task<Result> UnfollowCreatorAsync(UnfollowCreatorRequest request, CancellationToken cancellationToken = default);
 
         Task<Result> UnfollowPodcastAsync(UnfollowPodcastRequest request, CancellationToken cancellationToken = default);
 

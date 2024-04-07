@@ -12,6 +12,7 @@ import { AudioType } from '../../common/enums/AudioType';
 import { UploadAudioRequest } from '../../common/requests/UploadAudioRequest';
 import { ChangeEvent, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
+import MultiSelect, { Option } from '../../common/components/multi-select/MultiSelect';
 
 const darkTheme = createTheme({
   palette: {
@@ -22,10 +23,33 @@ const darkTheme = createTheme({
 type UploadAudioFormProps = DialogProps;
 
 const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened, setOpened }) => {
+  const [selectedGenres, setSelectedGenres] = useState<Option[]>([]);
+
+  const handleMultiSelectChange = (e: React.ChangeEvent<{}>, selectedOptions: Option[]) => {
+    setSelectedGenres(selectedOptions);
+  };
+
   const [checked, setChecked] = useState<boolean>(false);
-  const [request, setRequest] = useState<UploadAudioRequest>({ title: '', author: '', file: null, description: '', type: 0, genreIds: [] });
+  const [request, setRequest] = useState<UploadAudioRequest>({ 
+      title: '', 
+      author: '', 
+      file: null, 
+      description: '', 
+      type: 0, 
+      genreIds: [], 
+      collectionId: null 
+  });
+
   const handleClose = () => {
-    setRequest({ title: '', author: '', file: null, description: '', type: 0, genreIds: [] });
+    setRequest({ 
+      title: '', 
+      author: '', 
+      file: null, 
+      description: '', 
+      type: 0, 
+      genreIds: [], 
+      collectionId: null 
+    });
     setOpened(false);
   };
 
@@ -144,17 +168,60 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
               } as UploadAudioRequest);
             }}
           >
-            <MenuItem value={AudioType.Track}>Single</MenuItem>
+            <MenuItem value={AudioType.Track}>Track</MenuItem>
             <MenuItem value={AudioType.Album}>Album</MenuItem>
             <MenuItem value={AudioType.Podcast}>Podcast</MenuItem>
             <MenuItem value={AudioType.Audiobook}>Audiobook</MenuItem>
             <MenuItem value={AudioType.AudiobookCollection}>Audiobook Collection</MenuItem>
           </Select>
+        {hasGenres && 
+          <MultiSelect
+              options={[
+                {
+                  text: 'Hip Hop',
+                  value: '1'
+                },
+                {
+                  text: 'Metal',
+                  value: '2'
+                },
+                {
+                  text: 'Jazz',
+                  value: '3'
+                },
+              ]}
+              value={selectedGenres}
+              onChange={handleMultiSelectChange}
+              label='Select Multiple Genres'
+          />
+        }
         {isIncludable && 
-          <div style={{ width: '550px', marginTop: '10px' }}>
-            <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
-            <label>{request?.type === AudioType.Track ? 'Include into album' : 'Include into audio book collection'}</label>
-          </div>
+          <>
+            <div style={{ width: '550px', marginTop: '10px', padding: 0 }}>
+              <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+              <label>{request?.type === AudioType.Track ? 'Include into album' : 'Include into audio book collection'}</label>
+            </div>
+            {checked && <Select
+              id="audio-collection"
+              value={request?.collectionId ?? 'undefined'}
+              label={request?.type === AudioType.Track ? 'Select an album' : 'Select an audio book collection'}
+              style={{ marginTop: '12px' }}
+              onChange={(e: SelectChangeEvent<string>) => {
+                setRequest({
+                  ...request,
+                  collectionId: e.target.value
+                } as UploadAudioRequest);
+              }}
+            >
+              <MenuItem value={'undefined'}>{request?.type === AudioType.Track ? 'Select an album' : 'Select an audio book collection'}</MenuItem>
+              <MenuItem value={'1'}>Album 1</MenuItem>
+              <MenuItem value={'2'}>Album 2</MenuItem>
+              <MenuItem value={'3'}>Album 3</MenuItem>
+              <MenuItem value={'4'}>Album 4</MenuItem>
+              <MenuItem value={'5'}>Album 5</MenuItem>
+            </Select>
+            }
+          </> 
         }
         {!isCollection &&
             <TextField

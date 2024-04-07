@@ -2,17 +2,17 @@
 using Melody.DataLayer.Models;
 using Melody.Shared;
 
-namespace Melody.DataLayer.Mappings
+namespace Melody.BusinessLayer.Mappings
 {
-    public class TopicMapping : Mapping
+    public class GenreMapping : Mapping
     {
-        public TopicMapping() : base()
+        public GenreMapping() : base()
         {
-            
+
         }
         protected override void RegisterMapping()
         {
-            CreateMap<TopicEntity, Topic>()
+            CreateMap<GenreEntity, Genre>()
                .ReverseMap();
         }
     }

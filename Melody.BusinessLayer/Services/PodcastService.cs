@@ -19,16 +19,6 @@ namespace Melody.BusinessLayer.Services
             return await SaveChangesAsync(result, cancellationToken);
         }
 
-        public async Task<IEnumerable<PodcastDto>> GetByTopicAsync(GetPodcastByTopicRequest request, CancellationToken cancellationToken = default)
-        {
-            var podcasts = await _context.Podcasts.ArrayAsync(
-                p => p.TopicId == request.TopicId,
-                AllIncludeProperties(),
-                cancellationToken);
-
-            return podcasts.Select(_mapper.Map<PodcastDto>);
-        }
-
         public async Task<Result> RemoveAsync(RemovePodcastRequest request, CancellationToken cancellationToken = default)
         {
             var result = await _context.Podcasts.DeleteAsync(p => p.Id == request.PodcastId, cancellationToken: cancellationToken);
@@ -39,8 +29,6 @@ namespace Melody.BusinessLayer.Services
         {
             return new List<string>
             {
-                $"{nameof(Podcast.Topic)}",
-                $"{nameof(Podcast.Tags)}",
                 $"{nameof(Podcast.Creator)}"
             };
         }

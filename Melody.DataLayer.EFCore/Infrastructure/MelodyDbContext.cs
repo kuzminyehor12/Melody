@@ -29,6 +29,7 @@ namespace Melody.DataLayer.EFCore.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseNpgsql("Host=localhost:5433;Database=MelodyDb;Username=postgres;Password=admin");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

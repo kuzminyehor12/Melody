@@ -1,4 +1,5 @@
 ﻿using Melody.DataLayer.EFCore.Entities;
+using Melody.DataLayer.EFCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Melody.DataLayer.EFCore.Extensions
@@ -12,7 +13,8 @@ namespace Melody.DataLayer.EFCore.Extensions
                 .HasManyToMany(t => t.Genres, g => g.GenredTracks, nameof(GenreEntity.GenredTracks))
                 .HasOneToMany(t => t.Creator, c => c.Tracks, t => t.CreatorId, true)
                 .HasManyToMany(t => t.Playlists, p => p.PlaylistedTracks, nameof(PlaylistEntity.PlaylistedTracks))
-                .HasOneToMany(t => t.Album, a => a.AlbumedTracks, t => t.AlbumId);
+                .HasOneToMany(t => t.Album, a => a.AlbumedTracks, t => t.AlbumId)
+                .HasManyToMany(t => t.Followers, u => u.FollowedTracks, nameof(UserEntity.FollowedTracks));
         }
 
         public static void BuildPlaylists(this ModelBuilder modelBuilder)
@@ -73,7 +75,8 @@ namespace Melody.DataLayer.EFCore.Extensions
         public static void BuildGenres(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GenreEntity>()
-                .HasId();
+                .HasId()
+                .HasData(GenresData.GetList());
         }
     }
 }

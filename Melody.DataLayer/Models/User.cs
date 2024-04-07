@@ -12,6 +12,8 @@
 
         public Creator Creator { get; set; }
 
+        public virtual ICollection<Track> FollowedTracks { get; set; }
+
         public virtual ICollection<Playlist> FollowedPlaylists { get; set; }
 
         public virtual ICollection<Podcast> FollowedPodcasts { get; set; }

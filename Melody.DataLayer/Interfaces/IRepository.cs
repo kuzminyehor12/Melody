@@ -9,9 +9,11 @@ namespace Melody.DataLayer.Interfaces
          where TModel : BaseModel
          where TEntity : BaseEntity
     {
-        public Task<IEnumerable<TModel>> ArrayAsync(
-            Expression<Func<TModel, bool>> predicate, 
-            IEnumerable<string>? navigationPathProperty = null, 
+        public Task<IEnumerable<TModel>> ArrayAsync<TKey>(
+            Expression<Func<TModel, bool>>? predicate = null,
+            Expression<Func<TModel, TKey>>? keySelector = null,
+            IEnumerable<string>? navigationPathProperty = null,
+            bool desc = false,
             CancellationToken cancellationToken = default);
 
         public Task<TModel> FirstAsync(

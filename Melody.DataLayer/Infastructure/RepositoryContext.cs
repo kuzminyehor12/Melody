@@ -17,8 +17,6 @@ namespace Melody.DataLayer.Infastructure
 
         public virtual ICreatorRepository Creators { get; set; }
 
-        public virtual ITopicRepository Topics { get; set; }
-
         public virtual IAlbumRepository Albums { get; set; }
 
         public virtual IUserRepository Users { get; set; }
@@ -35,7 +33,6 @@ namespace Melody.DataLayer.Infastructure
             ICreatorRepository creators,
             IUserRepository users,
             IGenreRepository genres,
-            ITopicRepository topics,
             IAudioBookRepository audioBooks,
             IAudioBookCollectionRepository audioBookCollections,
             MelodyDbContext dbContext
@@ -48,7 +45,6 @@ namespace Melody.DataLayer.Infastructure
             Albums = albums;
             Users = users;
             Genres = genres;
-            Topics = topics;
             Creators = creators;
             AudioBooks = audioBooks;
             AudioBookCollections = audioBookCollections;
@@ -64,7 +60,6 @@ namespace Melody.DataLayer.Infastructure
             Albums.AttachContext(melodyDbContext);
             Users.AttachContext(melodyDbContext);
             Genres.AttachContext(melodyDbContext);
-            Topics.AttachContext(melodyDbContext);
             Creators.AttachContext(melodyDbContext);
             AudioBooks.AttachContext(melodyDbContext);
             AudioBookCollections.AttachContext(melodyDbContext);

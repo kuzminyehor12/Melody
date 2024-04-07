@@ -41,7 +41,9 @@ namespace Melody.BusinessLayer.Services
         {
             var tracks = await _context.Tracks.ArrayAsync(
                 t => t.AlbumId == request.AlbumId, 
+                t => t.PublishedAt,
                 AllIncludeProperties(), 
+                true,
                 cancellationToken);
 
             return tracks.Select(_mapper.Map<TrackDto>);
@@ -51,7 +53,9 @@ namespace Melody.BusinessLayer.Services
         {
             var tracks = await _context.Tracks.ArrayAsync(
                t => t.CreatorId == request.CreatorId,
+               t => t.PublishedAt,
                AllIncludeProperties(),
+               true,
                cancellationToken);
 
             return tracks.Select(_mapper.Map<TrackDto>);
@@ -61,7 +65,9 @@ namespace Melody.BusinessLayer.Services
         {
             var tracks = await _context.Tracks.ArrayAsync(
                 t => t.Genres.Any(g => g.Id == request.GenreId), 
-                AllIncludeProperties(), 
+                t => t.PublishedAt,
+                AllIncludeProperties(),
+                true,
                 cancellationToken);
 
             return tracks.Select(_mapper.Map<TrackDto>);
@@ -71,7 +77,9 @@ namespace Melody.BusinessLayer.Services
         {
             var tracks = await _context.Tracks.ArrayAsync(
                 t => t.Playlists.Any(p => p.Id == request.PlaylistId),
+                t => t.PublishedAt,
                 AllIncludeProperties(),
+                true,
                 cancellationToken);
 
             return tracks.Select(_mapper.Map<TrackDto>);
@@ -108,8 +116,7 @@ namespace Melody.BusinessLayer.Services
                 $"{nameof(Track.Genres)}",
                 $"{nameof(Track.Album)}",
                 $"{nameof(Track.Playlists)}",
-                $"{nameof(Track.Creator)}",
-                $"{nameof(Track.Tags)}"
+                $"{nameof(Track.Creator)}"
             };
         }
     }

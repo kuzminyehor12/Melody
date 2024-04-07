@@ -33,16 +33,32 @@ namespace Melody.DataLayer.Infrastructure
                 .AnyAsync(MapExpression(predicate), cancellationToken);
         }
 
-        public async Task<IEnumerable<TModel>> ArrayAsync(
-            Expression<Func<TModel, bool>> predicate,
+        public async Task<IEnumerable<TModel>> ArrayAsync<TKey>(
+            Expression<Func<TModel, bool>>? predicate = null,
+            Expression<Func<TModel, TKey>>? keySelector = null,
             IEnumerable<string>? navigationPathProperty = null,
+            bool desc = false,
             CancellationToken cancellationToken = default)
         {
-            var entities = await All()
-                .Where(MapExpression(predicate))
-                .IncludeAll(navigationPathProperty)
-                .ToListAsync(cancellationToken);
-            return _mapper.Map<IEnumerable<TModel>>(entities);
+            var entities = All().IncludeAll(navigationPathProperty);
+
+            if (predicate is not null)
+            {
+                entities = entities.Where(MapExpression(predicate));
+            }
+
+            if (keySelector is not null)
+            {
+                var mappedKeySelector = MapExpression(keySelector);
+
+                entities = !desc ?
+                    entities.OrderBy(mappedKeySelector)
+                    : entities.OrderByDescending(mappedKeySelector);
+            }
+           
+            var resultEntities = await entities.ToListAsync(cancellationToken);
+
+            return _mapper.Map<IEnumerable<TModel>>(resultEntities);
         }
 
         public void AttachContext(DbContext dbContext)
@@ -90,7 +106,10 @@ namespace Melody.DataLayer.Infrastructure
             IEnumerable<string>? navigationPathProperty = null,
             CancellationToken cancellationToken = default)
         {
-            var entity = await All().IncludeAll(navigationPathProperty).FirstAsync(MapExpression(predicate), cancellationToken);
+            var entity = await All()
+                .IncludeAll(navigationPathProperty)
+                .FirstAsync(MapExpression(predicate), cancellationToken);
+
             return _mapper.Map<TModel>(entity);
         }
 
@@ -122,6 +141,11 @@ namespace Melody.DataLayer.Infrastructure
         private Expression<Func<TEntity, bool>> MapExpression(Expression<Func<TModel, bool>> predicate)
         {
             return _mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
+        }
+
+        private Expression<Func<TEntity, TKey>> MapExpression<TKey>(Expression<Func<TModel, TKey>> keySelector)
+        {
+            return _mapper.Map<Expression<Func<TEntity, TKey>>>(keySelector);
         }
     }
 }

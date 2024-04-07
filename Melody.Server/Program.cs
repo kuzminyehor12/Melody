@@ -1,5 +1,7 @@
 using Melody.BusinessLayer.Interfaces;
+using Melody.BusinessLayer.Mappings;
 using Melody.BusinessLayer.Services;
+using Melody.DataLayer.Mappings;
 using Melody.Services.Interfaces;
 using Refit;
 
@@ -13,6 +15,8 @@ namespace Melody.Server
 
             // Add services to the container.
 
+            builder.Services.AddAutoMapper(BLAssembly.GetAssembly(), DLAssembly.GetAssembly());
+
             builder.Services.AddRefitClient<IDeezerApiClient>()
                 .ConfigureHttpClient(c =>
                 {
@@ -22,6 +26,7 @@ namespace Melody.Server
                 });
 
             builder.Services.AddScoped<ISearchService, SearchService>();
+            builder.Services.AddScoped<IGenreService, GenreService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

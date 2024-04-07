@@ -9,5 +9,7 @@
         public virtual ICollection<Genre> Genres { get; set; }
 
         public virtual ICollection<Playlist> Playlists { get; set; }
+
+        public virtual ICollection<User> Followers { get; set; }
     }
 }

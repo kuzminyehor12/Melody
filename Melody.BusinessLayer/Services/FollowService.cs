@@ -28,23 +28,6 @@ namespace Melody.BusinessLayer.Services
             return await SaveChangesAsync(result, cancellationToken);
         }
 
-        public async Task<Result> FollowCreatorAsync(FollowCreatorRequest request, CancellationToken cancellationToken = default)
-        {
-            var includeProperties = new List<string>
-            {
-                $"{nameof(User.FollowedCreators)}"
-            };
-
-            var creatorToFollow = await _context.Creators.FirstAsync(c => c.Id == request.CreatorId, cancellationToken: cancellationToken);
-            var result = await _context.Users.UpdateAsync(
-                u => u.Id == request.FollowerId,
-                u => u.FollowedCreators.Add(creatorToFollow),
-                includeProperties,
-                cancellationToken);
-
-            return await SaveChangesAsync(result, cancellationToken);
-        }
-
         public async Task<Result> FollowPlaylistAsync(FollowPlaylistRequest request, CancellationToken cancellationToken = default)
         {
             var includeProperties = new List<string>
@@ -107,23 +90,6 @@ namespace Melody.BusinessLayer.Services
             var result = await _context.Users.UpdateAsync(
                 u => u.Id == request.FollowerId,
                 u => u.FollowedAlbums.Remove(albumToUnfollow),
-                includeProperties,
-                cancellationToken);
-
-            return await SaveChangesAsync(result, cancellationToken);
-        }
-
-        public async Task<Result> UnfollowCreatorAsync(UnfollowCreatorRequest request, CancellationToken cancellationToken = default)
-        {
-            var includeProperties = new List<string>
-            {
-                $"{nameof(User.FollowedCreators)}"
-            };
-
-            var creatorToUnfollow = await _context.Creators.FirstAsync(c => c.Id == request.CreatorId, cancellationToken: cancellationToken);
-            var result = await _context.Users.UpdateAsync(
-                u => u.Id == request.FollowerId,
-                u => u.FollowedCreators.Remove(creatorToUnfollow),
                 includeProperties,
                 cancellationToken);
 

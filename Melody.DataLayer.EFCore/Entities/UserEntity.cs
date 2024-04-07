@@ -12,8 +12,8 @@
         
         public virtual CreatorEntity Creator { get; set; }
 
-        // Followed tracks are stored in playlist that stored in FollowedPlaylists
-        // For each user by default 'Liked Songs' playlist will be created
+        public virtual ICollection<TrackEntity> FollowedTracks { get; set; }
+
         public virtual ICollection<PlaylistEntity> FollowedPlaylists { get; set; }
 
         public virtual ICollection<PodcastEntity> FollowedPodcasts { get; set; }

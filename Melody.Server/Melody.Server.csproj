@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>6.*-*</Version>
     </PackageReference>
@@ -23,6 +25,7 @@
     <ProjectReference Include="..\melody.client\melody.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\Melody.DataLayer\Melody.DataLayer.csproj" />
     <ProjectReference Include="..\Melody.Services\Melody.Services.csproj" />
   </ItemGroup>
 
