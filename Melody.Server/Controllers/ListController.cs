@@ -14,7 +14,7 @@ namespace Melody.Server.Controllers
             _genreService = genreService;
         }
 
-        [HttpGet]
+        [HttpGet("genres")]
         public async Task<IActionResult> GetGenres(CancellationToken cancellationToken)
         {
             var genres = await _genreService.GetAllAsync(cancellationToken);

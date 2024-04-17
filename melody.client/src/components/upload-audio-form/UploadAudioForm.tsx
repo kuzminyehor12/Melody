@@ -10,9 +10,10 @@ import { Checkbox, IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/
 import { FileUploadOutlined } from '@mui/icons-material';
 import { AudioType } from '../../common/enums/AudioType';
 import { UploadAudioRequest } from '../../common/requests/UploadAudioRequest';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import MultiSelect, { Option } from '../../common/components/multi-select/MultiSelect';
+import api from '../../config/api-config';
 
 const darkTheme = createTheme({
   palette: {
@@ -24,9 +25,55 @@ type UploadAudioFormProps = DialogProps;
 
 const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened, setOpened }) => {
   const [selectedGenres, setSelectedGenres] = useState<Option[]>([]);
+  const [genres, setGenres] = useState<Option[]>([]);
+
+  const fetchGenres = () => {
+    fetch(`${api.baseUrl}/list/genres`)
+    .then(response => response.json())
+    .then(data => setGenres(data?.map(function (g: any): Option {
+      return {
+          text: g.displayName,
+          value: g.id
+      };
+    }) ?? []))
+    .catch(err => console.log(err));
+  };
+
+  const sendUploadRequest = (
+    onSuccess: () => void, 
+    onFailure: () => void) => {
+    fetch(`${api.baseUrl}/upload`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(request)
+    })
+    .then(response => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFailure();
+      }
+    })
+    .catch(err => console.log(err))
+  }
 
   const handleMultiSelectChange = (e: React.ChangeEvent<{}>, selectedOptions: Option[]) => {
-    setSelectedGenres(selectedOptions);
+    const seen: Map<string, boolean> = new Map<string, boolean>();
+    let uniqueSelectedOptions = selectedOptions.filter(o => {
+        if (!seen.get(o.text)) {
+            seen.set(o.text, true);
+            return true;
+        }
+        return false;
+    });
+
+    setSelectedGenres(uniqueSelectedOptions);
+    setRequest({
+      ...request,
+      genreIds: uniqueSelectedOptions.map(g => g.value)
+    });
   };
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -50,6 +97,8 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
       genreIds: [], 
       collectionId: null 
     });
+    setGenres([]);
+    setSelectedGenres([]);
     setOpened(false);
   };
 
@@ -87,10 +136,13 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
             component: 'form',
             onSubmit: (e: React.FormEvent<HTMLFormElement>) => {
               e.preventDefault();
-              const formData = new FormData(e.currentTarget);
-              const formJson = Object.fromEntries((formData as any).entries());
-              const email = formJson.email;
-              console.log(email);
+              sendUploadRequest(
+              () => {
+                alert('Audio has been uploaded successfully!');
+              },
+              () => {
+                alert('The issue found on uploading audio!');
+              })
               handleClose();
             },
           }}
@@ -176,21 +228,9 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
           </Select>
         {hasGenres && 
           <MultiSelect
-              options={[
-                {
-                  text: 'Hip Hop',
-                  value: '1'
-                },
-                {
-                  text: 'Metal',
-                  value: '2'
-                },
-                {
-                  text: 'Jazz',
-                  value: '3'
-                },
-              ]}
+              options={genres}
               value={selectedGenres}
+              onClick={fetchGenres}
               onChange={handleMultiSelectChange}
               label='Select Multiple Genres'
           />
@@ -225,7 +265,6 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
         }
         {!isCollection &&
             <TextField
-              required
               style={{ width: '550px' }}
               variant="standard"          
               type="text"

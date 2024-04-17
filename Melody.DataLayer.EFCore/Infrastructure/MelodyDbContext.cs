@@ -26,6 +26,16 @@ namespace Melody.DataLayer.EFCore.Infrastructure
 
         public virtual DbSet<TagEntity> Tags { get; set; }
 
+        public MelodyDbContext() : base()
+        {
+            
+        }
+
+        public MelodyDbContext(DbContextOptions<MelodyDbContext> options) : base(options) 
+        {
+            
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

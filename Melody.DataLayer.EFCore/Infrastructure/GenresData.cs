@@ -234,10 +234,6 @@ namespace Melody.DataLayer.EFCore.Infrastructure
                 },
                 new GenreEntity
                 {
-                    DisplayName = "House"
-                },
-                new GenreEntity
-                {
                     DisplayName = "Breakbeat"
                 },
                 new GenreEntity

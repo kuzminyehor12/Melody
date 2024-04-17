@@ -5,3 +5,7 @@ export const toDurationString = (duration: number) => {
     let secondsAsString = (seconds >= 10) ? seconds : "0" + seconds;
     return minutesAsString + ":" + secondsAsString;
 }
+
+export const has = (source: string, searchString: string) => {
+    return source.toLocaleLowerCase().includes(searchString.toLocaleLowerCase());
+}

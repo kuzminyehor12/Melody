@@ -1,4 +1,4 @@
-﻿using Melody.DataLayer.EFCore.Entities;
+﻿using Melody.BusinessLayer.DTOs;
 using Melody.DataLayer.Models;
 using Melody.Shared;
 
@@ -12,7 +12,7 @@ namespace Melody.BusinessLayer.Mappings
         }
         protected override void RegisterMapping()
         {
-            CreateMap<GenreEntity, Genre>()
+            CreateMap<Genre, GenreDto>()
                .ReverseMap();
         }
     }

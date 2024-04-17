@@ -1,8 +1,14 @@
+using AutoMapper.Extensions.ExpressionMapping;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Mappings;
 using Melody.BusinessLayer.Services;
+using Melody.DataLayer.EFCore.Infrastructure;
+using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Mappings;
+using Melody.Server.Configuration;
+using Melody.Server.Extensions;
 using Melody.Services.Interfaces;
+using Microsoft.Extensions.Options;
 using Refit;
 
 namespace Melody.Server
@@ -13,18 +19,28 @@ namespace Melody.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var apiConfig = builder.Configuration.GetSection("ApiConfig").Get<ApiConfig>();
+            var postgresConnectionString = builder.Configuration["ConnectionStrings:Postgres"];
             // Add services to the container.
 
             builder.Services.AddAutoMapper(BLAssembly.GetAssembly(), DLAssembly.GetAssembly());
+            builder.Services.AddAutoMapper(config =>
+            {
+                config.AddExpressionMapping();
+            });
+
+            builder.Services.AddNpgsql<MelodyDbContext>(postgresConnectionString);
 
             builder.Services.AddRefitClient<IDeezerApiClient>()
                 .ConfigureHttpClient(c =>
                 {
-                    c.BaseAddress = new Uri("https://deezerdevs-deezer.p.rapidapi.com");
-                    c.DefaultRequestHeaders.Add("X-RapidAPI-Key", "84ae771033mshf62081246a48f34p12b39djsn446c9a3027dc");
-                    c.DefaultRequestHeaders.Add("X-RapidAPI-Host", "deezerdevs-deezer.p.rapidapi.com");
+                    c.BaseAddress = new Uri(apiConfig.Url);
+                    c.DefaultRequestHeaders.Add(apiConfig.Key.HeaderName, apiConfig.Key.HeaderValue);
+                    c.DefaultRequestHeaders.Add(apiConfig.Host.HeaderName, apiConfig.Host.HeaderValue);
                 });
 
+            builder.Services.AddRepositories();
+            builder.Services.AddScoped<RepositoryContext>();
             builder.Services.AddScoped<ISearchService, SearchService>();
             builder.Services.AddScoped<IGenreService, GenreService>();
 

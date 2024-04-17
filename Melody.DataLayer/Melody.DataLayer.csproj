@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Melody.DataLayer.EFCore\Melody.DataLayer.EFCore.csproj" />
     <ProjectReference Include="..\Melody.Shared\Melody.Shared.csproj" />
   </ItemGroup>
