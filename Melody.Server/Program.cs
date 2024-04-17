@@ -43,6 +43,7 @@ namespace Melody.Server
             builder.Services.AddScoped<RepositoryContext>();
             builder.Services.AddScoped<ISearchService, SearchService>();
             builder.Services.AddScoped<IGenreService, GenreService>();
+            builder.Services.AddScoped<IUploadService, UploadService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

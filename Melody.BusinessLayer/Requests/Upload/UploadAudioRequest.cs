@@ -1,6 +1,7 @@
 ﻿using Melody.Shared.Enums;
+using Microsoft.AspNetCore.Http;
 
-namespace Melody.Server.Requests
+namespace Melody.BusinessLayer.Requests.Upload
 {
     public class UploadAudioRequest
     {
