@@ -26,7 +26,7 @@ const AudioListItem: React.FunctionComponent<AudioListItemProps> = ({ audioItem,
                 </div>
             </div>
             <div className="audio-duration">
-                <span>{toDurationString(audioItem.duration ?? 0)}</span>
+                <span>{toDurationString(Number.isNaN(audioItem.duration) ? 0 : (audioItem.duration ?? 0))}</span>
             </div>
         </div>
     );

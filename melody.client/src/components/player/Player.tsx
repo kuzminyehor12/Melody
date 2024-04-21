@@ -116,7 +116,7 @@ const Player: React.FunctionComponent = () => {
             />
             <div className="player-info">
                 <div className="item-img">
-                    <img src={state.current.imageSrc} alt="Audio Image" />
+                    <img src={state.current.imageSrc ?? 'https://misc.scdn.co/liked-songs/liked-songs-300.png'} alt="Audio Image" />
                 </div>
                 <div className="item-text">
                     <p className='item-title'>{state.current.title}</p>

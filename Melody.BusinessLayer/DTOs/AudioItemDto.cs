@@ -19,5 +19,7 @@
         public int FollowersCount { get; set; }
 
         public Guid CreatorId { get; set; }
+
+        public string? DownloadUrl { get; set; }
     }
 }

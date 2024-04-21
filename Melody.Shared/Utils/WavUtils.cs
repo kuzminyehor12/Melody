@@ -10,7 +10,7 @@ namespace Melody.Shared.Utils
             {
                 using (WaveFileReader audioFile = new WaveFileReader(stream))
                 {
-                    return audioFile.TotalTime.TotalMilliseconds;
+                    return audioFile.TotalTime.TotalSeconds;
                 }
             }
             catch

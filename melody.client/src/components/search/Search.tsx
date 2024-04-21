@@ -10,20 +10,37 @@ const Search: React.FunctionComponent = () => {
     const [audios, setAudios] = useState<AudioItem[]>([]);
 
     useEffect(() => {
+        const MAX_AUDIOS_LENGTH = 25;
         const fetchAudios = async () => {
-            const response = await fetch(`${api.baseUrl}/search?query=` + state?.searchString);
+            const response = await fetch(`${api.baseUrl}/search/db?query=` + state?.searchString);
             const json = await response.json();
-            setAudios(json.data?.map(function (a: any): AudioItem {
+            setAudios(json.map(function (a: any): AudioItem {
                 return {
                     id: a.id,
                     title: a.title,
-                    audioSrc: a.preview,
-                    author: a.artist.name,
-                    imageSrc: a.album.cover_small,
-                    duration: a.duration,
+                    audioSrc: a.downloadUrl,
+                    author: a.author,
+                    imageSrc: a.coversheet,
+                    duration: a.durationInMs,
                     progress: 0
                 };
             }) ?? []);
+
+            if (!audios || audios.length < MAX_AUDIOS_LENGTH) {
+                const response = await fetch(`${api.baseUrl}/search/api?query=` + state?.searchString);
+                const json = await response.json();
+                setAudios([...audios, ...json.data?.slice(0, MAX_AUDIOS_LENGTH - audios.length).map(function (a: any): AudioItem {
+                    return {
+                        id: a.id,
+                        title: a.title,
+                        audioSrc: a.preview,
+                        author: a.artist.name,
+                        imageSrc: a.album.cover_small,
+                        duration: a.duration,
+                        progress: 0
+                    };
+                }) ?? []]);
+            }
         }
 
         fetchAudios();

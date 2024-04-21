@@ -15,11 +15,18 @@ namespace Melody.Server.Controllers
             _searchService = searchService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> SearchItems(string query, CancellationToken cancellationToken = default)
+        [HttpGet("api")]
+        public async Task<IActionResult> SearchApiItems(string query, CancellationToken cancellationToken = default)
         {
-            var data = await _searchService.SearchItemAsync(new SearchItemRequest { SearchString = query }, cancellationToken);
+            var data = await _searchService.SearchApiItemsAsync(new SearchItemRequest { SearchString = query }, cancellationToken);
             return Ok(data);
+        }
+
+        [HttpGet("db")]
+        public async Task<IActionResult> SearchDbItems(string query, CancellationToken cancellationToken = default)
+        {
+            var tracks = await _searchService.SearchDbItemsAsync(new SearchItemRequest { SearchString = query }, cancellationToken);
+            return Ok(tracks);
         }
     }
 }

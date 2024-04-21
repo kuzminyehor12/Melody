@@ -1,4 +1,5 @@
 ﻿using Melody.BusinessLayer.DTOs;
+using Melody.BusinessLayer.Requests.Search;
 using Melody.BusinessLayer.Requests.Tracks;
 using Melody.Shared;
 
@@ -11,6 +12,8 @@ namespace Melody.BusinessLayer.Interfaces
         Task<IEnumerable<TrackDto>> GetByGenreAsync(GetTrackByGenreRequest request, CancellationToken cancellationToken = default);
 
         Task<IEnumerable<TrackDto>> GetByAlbumAsync(GetTrackByAlbumRequest request, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<TrackDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default);
         
         Task<Result> AddAsync(CreateTrackRequest request, CancellationToken cancellationToken = default);
 

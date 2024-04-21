@@ -11,7 +11,7 @@ namespace Melody.Shared.Utils
             {
                 using (StreamMediaFoundationReader audioFile = new StreamMediaFoundationReader(stream))
                 {
-                    return audioFile.TotalTime.TotalMilliseconds;
+                    return audioFile.TotalTime.TotalSeconds;
                 }
             }
             catch

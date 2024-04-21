@@ -4,13 +4,19 @@ using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Tracks;
 using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Models;
+using Melody.Services.Interfaces;
 using Melody.Shared;
+using Melody.Shared.Extensions;
 
 namespace Melody.BusinessLayer.Services
 {
     public class TrackService : WriteService, ITrackService
     {
-        public TrackService(RepositoryContext context, IMapper mapper) : base(context, mapper) { }
+        private readonly IFileStorageService _fileStorageService;
+        public TrackService(RepositoryContext context, IMapper mapper, IFileStorageService fileStorageService) : base(context, mapper)
+        {
+            _fileStorageService = fileStorageService;
+        }
 
         public async Task<Result> AddAsync(CreateTrackRequest request, CancellationToken cancellationToken = default)
         {
@@ -71,6 +77,25 @@ namespace Melody.BusinessLayer.Services
                 cancellationToken);
 
             return tracks.Select(_mapper.Map<TrackDto>);
+        }
+
+        public async Task<IEnumerable<TrackDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
+        {
+            var tracks = await _context.Tracks.ArrayAsync(
+               t => t.Title.Contains(searchString) || t.Author.Contains(searchString) || t.Album.DisplayName.Contains(searchString),
+               t => t.ListeningsCount,
+               AllIncludeProperties(),
+               true,
+               cancellationToken);
+
+            var dtos = tracks.Select(_mapper.Map<TrackDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                dto.DownloadUrl = await _fileStorageService.DownloadAsync(dto.Filename);
+            }
+
+            return dtos;
         }
 
         public async Task<Result> IncludeIntoPlaylistAsync(IncludeTrackIntoPlaylistRequest request, CancellationToken cancellationToken = default)
