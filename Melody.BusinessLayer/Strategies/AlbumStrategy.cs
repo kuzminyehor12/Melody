@@ -22,7 +22,6 @@ namespace Melody.BusinessLayer.Strategies
                 var albumDto = dto as AlbumDto;
                 var request = Mapper.Map<CreateAlbumRequest>(albumDto);
                 var result = await AlbumService.AddAsync(request, cancellationToken);
-                // TODO: send to message queue to handle file upload
                 return result;
             }
             catch (Exception ex)

@@ -42,12 +42,18 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
   const sendUploadRequest = (
     onSuccess: () => void, 
     onFailure: () => void) => {
+    const formData = new FormData();
+    const { file, ...data } = request;
+
+    formData.append('data', JSON.stringify(data));
+
+    if (file) {
+      formData.append('file', file, file.name)
+    }
+
     fetch(`${api.baseUrl}/upload`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(request)
+      body: formData
     })
     .then(response => {
       if (response.ok) {

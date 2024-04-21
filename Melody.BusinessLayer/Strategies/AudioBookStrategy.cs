@@ -22,7 +22,6 @@ namespace Melody.BusinessLayer.Strategies
                 var audioBookDto = dto as AudioBookDto;
                 var request = Mapper.Map<CreateAudioBookRequest>(audioBookDto);
                 var result = await AudioBookService.AddAsync(request, cancellationToken);
-                // TODO: send to message queue to handle file upload
                 return result;
             }
             catch (Exception ex)

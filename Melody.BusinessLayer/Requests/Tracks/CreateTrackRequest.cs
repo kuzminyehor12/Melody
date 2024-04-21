@@ -6,14 +6,12 @@
 
         public string Filename { get; set; }
 
-        public string? Coversheet { get; set; }
+        public long DurationInMs { get; set; }
 
-        public int ListeningsCount { get; set; }
+        public string Author { get; set; }
 
         public Guid? AlbumId { get; set; }
 
         public IEnumerable<Guid> GenreIds { get; set; }
-
-        public IEnumerable<Guid> PlaylistIds { get; set; }
     }
 }

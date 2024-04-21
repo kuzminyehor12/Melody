@@ -20,8 +20,6 @@ namespace Melody.BusinessLayer.Strategies
                 var podcastDto = dto as PodcastDto;
                 var request = Mapper.Map<CreatePodcastRequest>(podcastDto);
                 var result = await PodcastService.AddAsync(request, cancellationToken);
-
-                // TODO: send to message queue to handle file upload
                 return result;
 			}
 			catch (Exception ex)

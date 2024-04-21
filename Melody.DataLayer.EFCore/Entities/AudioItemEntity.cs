@@ -8,7 +8,7 @@
 
         public string Filename { get; set; }
 
-        public long DurationInMs { get; set; }
+        public double DurationInMs { get; set; }
 
         public string? Coversheet { get; set; }
 

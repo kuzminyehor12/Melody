@@ -1,4 +1,6 @@
-﻿using Melody.DataLayer.Infastructure;
+﻿using Melody.BusinessLayer.Interfaces;
+using Melody.BusinessLayer.Services;
+using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Interfaces;
 
 namespace Melody.Server.Extensions
@@ -16,6 +18,19 @@ namespace Melody.Server.Extensions
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
             services.AddScoped<IAudioBookCollectionRepository, AudioBookCollectionRepository>();
+        }
+
+        public static void AddBusinessServices(this IServiceCollection services)
+        {
+            services.AddTransient<IUploadService, UploadService>();
+            services.AddTransient<ISearchService, SearchService>();
+            services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<IUploadService, UploadService>();
+            services.AddTransient<ITrackService, TrackService>();
+            services.AddTransient<IAlbumService, AlbumService>();
+            services.AddTransient<IAudioBookService, AudioBookService>();
+            services.AddTransient<IPodcastService, PodcastService>();
+            services.AddTransient<IAudioBookCollectionService, AudioBookCollectionService>();
         }
     }
 }

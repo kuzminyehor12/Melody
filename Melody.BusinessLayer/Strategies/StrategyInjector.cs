@@ -24,7 +24,7 @@ namespace Melody.BusinessLayer.Strategies
 
         public IMapper Mapper => _mapper;
 
-        protected StrategyInjector(
+        public StrategyInjector(
             IMapper mapper, 
             ITrackService trackService, 
             IAlbumService albumService, 

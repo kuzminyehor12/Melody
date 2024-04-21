@@ -25,6 +25,9 @@ namespace Melody.BusinessLayer.Services
         {
             BaseDto dto = CreateDto(request);
             var result = await _uploadStrategy.UploadAsync(dto, cancellationToken);
+
+            // TODO: upload file to file storage if file is not null
+
             return result;
         }
 
@@ -32,7 +35,7 @@ namespace Melody.BusinessLayer.Services
         {
             BaseDto dto;
 
-            switch (request.Type)
+            switch (request.Data.Type)
             {
                 case AudioType.Track:
                     _uploadStrategy = new TrackStrategy(_strategyInjector);

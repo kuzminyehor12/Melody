@@ -22,8 +22,6 @@ namespace Melody.BusinessLayer.Strategies
 				var trackDto = dto as TrackDto;
                 var request = Mapper.Map<CreateTrackRequest>(trackDto);
                 var result = await TrackService.AddAsync(request, cancellationToken);
-
-                // TODO: send to message queue to handle file upload
                 return result;
 			}
 			catch (Exception ex)

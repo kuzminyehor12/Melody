@@ -4,6 +4,8 @@ using Melody.BusinessLayer.Requests.Upload;
 using Melody.BusinessLayer.Strategies;
 using Melody.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Melody.Server.Controllers
 {
@@ -19,15 +21,23 @@ namespace Melody.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadAudio(UploadAudioRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UploadAudio(CancellationToken cancellationToken)
         {
-            var result = await _uploadService.UploadAudioAsync(request, cancellationToken);
+            var formCollection = await Request.ReadFormAsync(cancellationToken);
+
+            var uploadRequest = new UploadAudioRequest
+            {
+                Data = JsonConvert.DeserializeObject<UploadAudioDataRequest>(formCollection["data"]),
+                File = formCollection.Files[0]
+            };
+
+            var result = await _uploadService.UploadAudioAsync(uploadRequest, cancellationToken);
 
             if (result.IsSuccess)
             {
                 return Ok();
             }
-
+            
             return BadRequest();
         }
     }

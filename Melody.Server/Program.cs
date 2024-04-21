@@ -22,7 +22,6 @@ namespace Melody.Server
 
             var apiConfig = builder.Configuration.GetSection("ApiConfig").Get<ApiConfig>();
             var postgresConnectionString = builder.Configuration["ConnectionStrings:Postgres"];
-            // Add services to the container.
 
             builder.Services.AddAutoMapper(BLAssembly.GetAssembly(), DLAssembly.GetAssembly());
             builder.Services.AddAutoMapper(config =>
@@ -41,17 +40,10 @@ namespace Melody.Server
                 });
 
             builder.Services.AddRepositories();
+
             builder.Services.AddScoped<RepositoryContext>();
 
-            // TODO: extract to AddServices
-            builder.Services.AddTransient<ISearchService, SearchService>();
-            builder.Services.AddTransient<IGenreService, GenreService>();
-            builder.Services.AddTransient<IUploadService, UploadService>();
-            builder.Services.AddTransient<ITrackService, TrackService>();
-            builder.Services.AddTransient<IAlbumService, AlbumService>();
-            builder.Services.AddTransient<IAudioBookService, AudioBookService>();
-            builder.Services.AddTransient<IPodcastService, PodcastService>();
-            builder.Services.AddTransient<IAudioBookCollectionService, AudioBookCollectionService>();
+            builder.Services.AddBusinessServices();
 
             builder.Services.AddTransient<StrategyInjector>();
 

@@ -4,13 +4,13 @@
     {
         public string Title { get; set; }
 
-        public string AuthorName { get; set; }
+        public string Author { get; set; }
 
         public string Filename { get; set; }
 
         public string? Coversheet { get; set; }
 
-        public long DurationInMs { get; set; }
+        public double DurationInMs { get; set; }
 
         public int ListeningsCount { get; set; }
 
