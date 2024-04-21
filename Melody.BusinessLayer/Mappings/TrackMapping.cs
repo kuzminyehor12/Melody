@@ -32,15 +32,23 @@ namespace Melody.BusinessLayer.Mappings
                 .ForMember(dto => dto.Filename, mem => mem
                     .MapFrom(request => request.File.FileName))
                 .ForMember(dto => dto.PublishedAt, mem => mem
-                    .MapFrom(_ => DateTime.Now))
+                    .MapFrom(_ => DateTime.UtcNow))
                 .ForMember(dto => dto.AlbumId, mem => mem
                     .MapFrom(request => request.Data.CollectionId))
                 .ForMember(dto => dto.GenreIds, mem => mem
                     .MapFrom(request => request.Data.GenreIds.Select(id => new Guid(id))))
                 .ForMember(dto => dto.DurationInMs, mem => mem
-                    .MapFrom(request => GetAudioDuration(request)));
+                    .MapFrom(request => GetAudioDuration(request)))
+                .ForMember(dto => dto.CreatorId, mem => mem
+                    // first user in database
+                    // TODO: change later
+                    .MapFrom(_ => new Guid("6ecb9c55-4584-4d3f-abe7-f9ecd5450135")));
 
-            CreateMap<CreateTrackRequest, TrackDto>();
+            CreateMap<TrackDto, CreateTrackRequest>();
+
+            CreateMap<CreateTrackRequest, Track>()
+                .ForMember(track => track.Genres, mem => mem
+                    .MapFrom(request => request.GenreIds.Select(id => new Genre { Id = id })));
         }
 
         private double GetAudioDuration(UploadAudioRequest request)

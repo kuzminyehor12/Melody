@@ -12,5 +12,10 @@ namespace Melody.DataLayer.Infastructure
         public UserRepository(MelodyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
+
+        protected override Task<UserEntity> PopulateEntity(User entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

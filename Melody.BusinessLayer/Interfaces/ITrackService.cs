@@ -11,8 +11,6 @@ namespace Melody.BusinessLayer.Interfaces
         Task<IEnumerable<TrackDto>> GetByGenreAsync(GetTrackByGenreRequest request, CancellationToken cancellationToken = default);
 
         Task<IEnumerable<TrackDto>> GetByAlbumAsync(GetTrackByAlbumRequest request, CancellationToken cancellationToken = default);
-
-        Task<IEnumerable<TrackDto>> GetByCreatorAsync(GetTrackByCreatorRequest request, CancellationToken cancellationToken = default);
         
         Task<Result> AddAsync(CreateTrackRequest request, CancellationToken cancellationToken = default);
 

@@ -12,5 +12,9 @@ namespace Melody.DataLayer.Infastructure
         public GenreRepository(MelodyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
+        protected override Task<GenreEntity> PopulateEntity(Genre entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

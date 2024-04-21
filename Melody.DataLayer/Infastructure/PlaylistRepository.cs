@@ -12,5 +12,9 @@ namespace Melody.DataLayer.Infastructure
         public PlaylistRepository(MelodyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
+        protected override Task<PlaylistEntity> PopulateEntity(Playlist entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

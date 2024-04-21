@@ -1,11 +1,8 @@
-﻿using Melody.BusinessLayer.DTOs;
-using Melody.BusinessLayer.Interfaces;
+﻿using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Upload;
-using Melody.BusinessLayer.Strategies;
-using Melody.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text.Json;
+using System.Diagnostics;
 
 namespace Melody.Server.Controllers
 {
@@ -38,6 +35,7 @@ namespace Melody.Server.Controllers
                 return Ok();
             }
             
+            Debug.WriteLine(JsonConvert.SerializeObject(result.Errors));
             return BadRequest();
         }
     }

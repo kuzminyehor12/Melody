@@ -49,18 +49,6 @@ namespace Melody.BusinessLayer.Services
             return tracks.Select(_mapper.Map<TrackDto>);
         }
 
-        public async Task<IEnumerable<TrackDto>> GetByCreatorAsync(GetTrackByCreatorRequest request, CancellationToken cancellationToken = default)
-        {
-            var tracks = await _context.Tracks.ArrayAsync(
-               t => t.CreatorId == request.CreatorId,
-               t => t.PublishedAt,
-               AllIncludeProperties(),
-               true,
-               cancellationToken);
-
-            return tracks.Select(_mapper.Map<TrackDto>);
-        }
-
         public async Task<IEnumerable<TrackDto>> GetByGenreAsync(GetTrackByGenreRequest request, CancellationToken cancellationToken = default)
         {
             var tracks = await _context.Tracks.ArrayAsync(
@@ -115,8 +103,7 @@ namespace Melody.BusinessLayer.Services
             {
                 $"{nameof(Track.Genres)}",
                 $"{nameof(Track.Album)}",
-                $"{nameof(Track.Playlists)}",
-                $"{nameof(Track.Creator)}"
+                $"{nameof(Track.Playlists)}"
             };
         }
     }

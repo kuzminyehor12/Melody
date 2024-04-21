@@ -1,4 +1,5 @@
 using AutoMapper.Extensions.ExpressionMapping;
+using Firebase.Storage;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Mappings;
 using Melody.BusinessLayer.Services;
@@ -9,6 +10,8 @@ using Melody.DataLayer.Mappings;
 using Melody.Server.Configuration;
 using Melody.Server.Extensions;
 using Melody.Services.Interfaces;
+using Melody.Services.WebServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Refit;
 
@@ -21,6 +24,7 @@ namespace Melody.Server
             var builder = WebApplication.CreateBuilder(args);
 
             var apiConfig = builder.Configuration.GetSection("ApiConfig").Get<ApiConfig>();
+            var firebaseStorageConfig = builder.Configuration.GetSection("FirebaseStorageConfig").Get<FirebaseStorageConfig>();
             var postgresConnectionString = builder.Configuration["ConnectionStrings:Postgres"];
 
             builder.Services.AddAutoMapper(BLAssembly.GetAssembly(), DLAssembly.GetAssembly());
@@ -28,6 +32,8 @@ namespace Melody.Server
             {
                 config.AddExpressionMapping();
             });
+
+            builder.Services.AddLogging();
 
             builder.Services.AddNpgsql<MelodyDbContext>(postgresConnectionString);
 
@@ -43,9 +49,13 @@ namespace Melody.Server
 
             builder.Services.AddScoped<RepositoryContext>();
 
+            builder.Services.AddTransient<IFileStorageService, FileStorageService>();
+
             builder.Services.AddBusinessServices();
 
             builder.Services.AddTransient<StrategyInjector>();
+
+            builder.Services.AddTransient<FirebaseStorage>(_ => new (firebaseStorageConfig.StorageBucket));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

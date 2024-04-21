@@ -13,5 +13,9 @@
         public Guid? AlbumId { get; set; }
 
         public IEnumerable<Guid> GenreIds { get; set; }
+
+        public Guid CreatorId { get; set; }
+
+        public DateTime PublishedAt { get; set; }
     }
 }

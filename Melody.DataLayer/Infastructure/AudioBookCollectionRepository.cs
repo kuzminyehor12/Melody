@@ -13,5 +13,9 @@ namespace Melody.DataLayer.Infastructure
         {
             
         }
+        protected override Task<AudioBookCollectionEntity> PopulateEntity(AudioBookCollection entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

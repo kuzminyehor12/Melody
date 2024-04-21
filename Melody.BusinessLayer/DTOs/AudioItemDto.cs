@@ -17,5 +17,7 @@
         public DateTime PublishedAt { get; set; }
 
         public int FollowersCount { get; set; }
+
+        public Guid CreatorId { get; set; }
     }
 }

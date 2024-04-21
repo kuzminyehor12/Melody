@@ -12,5 +12,10 @@ namespace Melody.DataLayer.Infastructure
         public PodcastRepository(MelodyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
+
+        protected override Task<PodcastEntity> PopulateEntity(Podcast entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,12 +10,12 @@ using System.Linq.Expressions;
 
 namespace Melody.DataLayer.Infrastructure
 {
-    public class Repository<TModel, TEntity> : IRepository<TModel, TEntity>
+    public abstract class Repository<TModel, TEntity> : IRepository<TModel, TEntity>
          where TModel : BaseModel
          where TEntity : BaseEntity
     {
-        private MelodyDbContext _dbContext;
-        private readonly IMapper _mapper;
+        protected MelodyDbContext _dbContext;
+        protected readonly IMapper _mapper;
 
         public Repository(MelodyDbContext dbContext, IMapper mapper)
         {
@@ -73,7 +73,7 @@ namespace Melody.DataLayer.Infrastructure
         {
             try
             {
-                var entity = _mapper.Map<TEntity>(model);
+                var entity = await PopulateEntity(model);
                 var entry = await _dbContext.AddAsync(entity, cancellationToken);
                 return Result.Success(entry.Entity.Id, nameof(CreateAsync));
             }
@@ -82,6 +82,8 @@ namespace Melody.DataLayer.Infrastructure
                 return Result.Failure(ex);
             }
         }
+
+        protected abstract Task<TEntity> PopulateEntity(TModel entity);
 
         public async Task<Result> DeleteAsync(
             Expression<Func<TModel, bool>> predicate,
