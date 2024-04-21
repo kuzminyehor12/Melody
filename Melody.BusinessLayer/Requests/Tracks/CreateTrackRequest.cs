@@ -10,8 +10,6 @@
 
         public int ListeningsCount { get; set; }
 
-        public Guid CreatorId { get; set; }
-
         public Guid? AlbumId { get; set; }
 
         public IEnumerable<Guid> GenreIds { get; set; }
