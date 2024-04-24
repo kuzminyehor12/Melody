@@ -1,7 +1,13 @@
 ﻿namespace Melody.DataLayer.EFCore.Entities
 {
-    public class AlbumEntity : DisplayableEntity
+    public class AlbumEntity : BaseEntity
     {
+        public string Title { get; set; }
+
+        public string? Coversheet { get; set; }
+
+        public string AuthorName { get; set; }
+
         public string Description { get; set; }
 
         public DateTime CreatedAt { get; set; }
