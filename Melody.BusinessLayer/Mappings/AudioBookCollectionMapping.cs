@@ -10,7 +10,7 @@ namespace Melody.BusinessLayer.Mappings
         }
         protected override void RegisterMapping()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

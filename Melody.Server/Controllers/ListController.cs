@@ -8,9 +8,11 @@ namespace Melody.Server.Controllers
     public class ListController : ControllerBase
     {
         private readonly IGenreService _genreService;
+        private readonly IAlbumService _albumService;
 
-        public ListController(IGenreService genreService)
+        public ListController(IAlbumService albumService, IGenreService genreService)
         {
+            _albumService = albumService;
             _genreService = genreService;
         }
 
@@ -19,6 +21,13 @@ namespace Melody.Server.Controllers
         {
             var genres = await _genreService.GetAllAsync(cancellationToken);
             return Ok(genres);
+        }
+
+        [HttpGet("albums")]
+        public async Task<IActionResult> GetAlbums(string q, CancellationToken cancellationToken)
+        {
+            var albums = await _albumService.GetAlbumBySearchString(q, cancellationToken);
+            return Ok(albums);
         }
     }
 }

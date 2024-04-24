@@ -12,20 +12,22 @@ const Search: React.FunctionComponent = () => {
     useEffect(() => {
         const MAX_AUDIOS_LENGTH = 25;
         const fetchAudios = async () => {
-            const response = await fetch(`${api.baseUrl}/search/db?query=` + state?.searchString);
-            const json = await response.json();
-            setAudios(json.map(function (a: any): AudioItem {
-                return {
-                    id: a.id,
-                    title: a.title,
-                    audioSrc: a.downloadUrl,
-                    author: a.author,
-                    imageSrc: a.coversheet,
-                    duration: a.durationInMs,
-                    progress: 0
-                };
-            }) ?? []);
-
+            if (state?.searchString) {
+                const response = await fetch(`${api.baseUrl}/search/db?query=` + state?.searchString);
+                const json = await response.json();
+                setAudios(json.map(function (a: any): AudioItem {
+                    return {
+                        id: a.id,
+                        title: a.title,
+                        audioSrc: a.downloadUrl,
+                        author: a.author,
+                        imageSrc: a.coversheet,
+                        duration: a.durationInMs,
+                        progress: 0
+                    };
+                }) ?? []);
+            }
+            
             if (!audios || audios.length < MAX_AUDIOS_LENGTH) {
                 const response = await fetch(`${api.baseUrl}/search/api?query=` + state?.searchString);
                 const json = await response.json();

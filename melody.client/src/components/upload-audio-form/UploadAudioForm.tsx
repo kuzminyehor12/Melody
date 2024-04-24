@@ -21,11 +21,17 @@ const darkTheme = createTheme({
   },
 });
 
+type AlbumOption = {
+  id: string;
+  title: string;
+}
+
 type UploadAudioFormProps = DialogProps;
 
 const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened, setOpened }) => {
   const [selectedGenres, setSelectedGenres] = useState<Option[]>([]);
   const [genres, setGenres] = useState<Option[]>([]);
+  const [albums, setAlbums] = useState<AlbumOption[]>();
 
   const fetchGenres = () => {
     fetch(`${api.baseUrl}/list/genres`)
@@ -34,6 +40,18 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
       return {
           text: g.displayName,
           value: g.id
+      };
+    }) ?? []))
+    .catch(err => console.log(err));
+  };
+
+  const fetchAlbums = () => {
+    fetch(`${api.baseUrl}/list/albums?q=${request.author}`)
+    .then(response => response.json())
+    .then(data => setAlbums(data?.map(function (a: any): AlbumOption {
+      return {
+          id: a.id,
+          title: a.title
       };
     }) ?? []))
     .catch(err => console.log(err));
@@ -109,7 +127,7 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
   };
 
   const hasDescription = request?.type !== AudioType.Track;
-  const hasGenres = request?.type === AudioType.Track || request?.type === AudioType.Album;
+  const hasGenres = request?.type === AudioType.Track;
   const isCollection = request?.type === AudioType.Album || request?.type === AudioType.AudiobookCollection;
   const isIncludable = request?.type === AudioType.Track || request?.type === AudioType.Audiobook;
 
@@ -132,6 +150,13 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
       return;
     }
   };
+
+  useEffect(() => {
+    const needAlbums = request.author && request.type === AudioType.Track;
+    if (needAlbums) {
+      fetchAlbums();
+    }
+  }, [request.author])
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -253,18 +278,16 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
               label={request?.type === AudioType.Track ? 'Select an album' : 'Select an audio book collection'}
               style={{ marginTop: '12px' }}
               onChange={(e: SelectChangeEvent<string>) => {
-                setRequest({
-                  ...request,
-                  collectionId: e.target.value
-                } as UploadAudioRequest);
+                if (e.target.value && e.target.value !== 'undefined'){
+                  setRequest({
+                    ...request,
+                    collectionId: e.target.value
+                  } as UploadAudioRequest);
+                }
               }}
             >
               <MenuItem value={'undefined'}>{request?.type === AudioType.Track ? 'Select an album' : 'Select an audio book collection'}</MenuItem>
-              <MenuItem value={'1'}>Album 1</MenuItem>
-              <MenuItem value={'2'}>Album 2</MenuItem>
-              <MenuItem value={'3'}>Album 3</MenuItem>
-              <MenuItem value={'4'}>Album 4</MenuItem>
-              <MenuItem value={'5'}>Album 5</MenuItem>
+              { albums?.map(a =><MenuItem value={a.id}>{a.title}</MenuItem>) }
             </Select>
             }
           </> 

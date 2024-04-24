@@ -25,7 +25,7 @@ namespace Melody.Server.Controllers
             var uploadRequest = new UploadAudioRequest
             {
                 Data = JsonConvert.DeserializeObject<UploadAudioDataRequest>(formCollection["data"]),
-                File = formCollection.Files[0]
+                File = formCollection.Files.Any() ? formCollection.Files[0] : null
             };
 
             var result = await _uploadService.UploadAudioAsync(uploadRequest, cancellationToken);

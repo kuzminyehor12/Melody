@@ -14,7 +14,8 @@ namespace Melody.DataLayer.Infastructure
         }
         protected override Task<AlbumEntity> PopulateEntity(Album entity)
         {
-            throw new NotImplementedException();
+            var album = _mapper.Map<AlbumEntity>(entity);
+            return Task.FromResult(album);
         }
     }
 }

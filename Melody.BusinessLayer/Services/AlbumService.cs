@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Albums;
 using Melody.DataLayer.Infastructure;
@@ -18,6 +19,18 @@ namespace Melody.BusinessLayer.Services
             var album = _mapper.Map<Album>(request);
             var result = await _context.Albums.CreateAsync(album, cancellationToken);
             return await SaveChangesAsync(result);
+        }
+
+        public async Task<IEnumerable<AlbumDto>> GetAlbumBySearchString(string searchString, CancellationToken cancellationToken = default)
+        {
+            var albums = await _context.Albums.ArrayAsync(
+               a => a.Author.Contains(searchString),
+               a => a.Title,
+               AllIncludeProperties(),
+               true,
+               cancellationToken);
+
+            return albums.Select(_mapper.Map<AlbumDto>);
         }
 
         protected override IEnumerable<string> AllIncludeProperties()
