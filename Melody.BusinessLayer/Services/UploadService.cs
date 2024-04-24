@@ -22,7 +22,7 @@ namespace Melody.BusinessLayer.Services
             _fileStorageService = fileStorageService;
         }
 
-        private IUploadStrategy<BaseDto> _uploadStrategy;
+        private IUploadStrategy _uploadStrategy;
 
         public async Task<Result> UploadAudioAsync(UploadAudioRequest request, CancellationToken cancellationToken)
         {

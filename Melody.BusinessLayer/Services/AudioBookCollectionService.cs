@@ -1,14 +1,28 @@
-﻿using Melody.BusinessLayer.Interfaces;
+﻿using AutoMapper;
+using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.AudioBookCollections;
+using Melody.DataLayer.Infastructure;
+using Melody.DataLayer.Models;
 using Melody.Shared;
 
 namespace Melody.BusinessLayer.Services
 {
-    public class AudioBookCollectionService : IAudioBookCollectionService
+    public class AudioBookCollectionService : WriteService, IAudioBookCollectionService
     {
-        public Task<Result> AddAsync(CreateAudioBookCollectionRequest request, CancellationToken cancellationToken)
+        public AudioBookCollectionService(RepositoryContext context, IMapper mapper) : base(context, mapper)
         {
-            throw new NotImplementedException();
+        }
+
+        public async Task<Result> AddAsync(CreateAudioBookCollectionRequest request, CancellationToken cancellationToken)
+        {
+            var collection = _mapper.Map<AudioBookCollection>(request);
+            var result = await _context.AudioBookCollections.CreateAsync(collection, cancellationToken);
+            return await SaveChangesAsync(result);
+        }
+
+        protected override IEnumerable<string> AllIncludeProperties()
+        {
+            return Enumerable.Empty<string>();
         }
     }
 }

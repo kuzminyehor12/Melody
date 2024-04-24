@@ -6,7 +6,7 @@ using Melody.Shared;
 
 namespace Melody.BusinessLayer.Strategies
 {
-    public class TrackStrategy : StrategyInjectionRoot, IUploadStrategy<BaseDto>
+    public class TrackStrategy : StrategyInjectionRoot, IUploadStrategy
     {
         private ITrackService TrackService => _injector.TrackService.Value;
 

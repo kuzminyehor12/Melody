@@ -6,7 +6,7 @@ using Melody.Shared;
 
 namespace Melody.BusinessLayer.Strategies
 {
-    public class AlbumStrategy : StrategyInjectionRoot, IUploadStrategy<BaseDto>
+    public class AlbumStrategy : StrategyInjectionRoot, IUploadStrategy
     {
         private IAlbumService AlbumService => _injector.AlbumService.Value;
 

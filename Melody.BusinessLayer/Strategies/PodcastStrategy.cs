@@ -6,7 +6,7 @@ using Melody.Shared;
 
 namespace Melody.BusinessLayer.Strategies
 {
-    public class PodcastStrategy : StrategyInjectionRoot, IUploadStrategy<BaseDto>
+    public class PodcastStrategy : StrategyInjectionRoot, IUploadStrategy
     {
         private IPodcastService PodcastService => _injector.PodcastService.Value;
         public PodcastStrategy(StrategyInjector injector) : base(injector)

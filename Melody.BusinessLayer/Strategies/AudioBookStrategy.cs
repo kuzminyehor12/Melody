@@ -6,7 +6,7 @@ using Melody.Shared;
 
 namespace Melody.BusinessLayer.Strategies
 {
-    public class AudioBookStrategy : StrategyInjectionRoot, IUploadStrategy<BaseDto>
+    public class AudioBookStrategy : StrategyInjectionRoot, IUploadStrategy
     {
         private IAudioBookService AudioBookService => _injector.AudioBookService.Value;
 
