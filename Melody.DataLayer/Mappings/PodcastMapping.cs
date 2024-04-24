@@ -13,6 +13,8 @@ namespace Melody.DataLayer.Mappings
         protected override void RegisterMapping()
         {
             CreateMap<PodcastEntity, Podcast>()
+               .ForMember(podcast => podcast.Author, mem => mem
+                   .MapFrom(entity => entity.AuthorName))
                .ReverseMap();
         }
     }
