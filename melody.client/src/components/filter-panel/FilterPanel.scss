@@ -1,0 +1,13 @@
+@import "../../theme.scss";
+
+.filter-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background: $greylighter;
+    height: max-content;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 5;
+}

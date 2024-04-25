@@ -1,11 +1,14 @@
 import React, { PropsWithChildren, createContext, useContext, useState } from 'react';
 import { AudioItem } from '../common/models/AudioItem';
+import { FilterOptions } from '../common/models/FilterOptions';
+import { SearchType } from '../common/enums/SearchType';
 
 interface GlobalState {
     isPlaying: boolean;
     current?: AudioItem;
     queue?: AudioItem[];
     searchString: string;
+    filter?: FilterOptions;
 }
 
 interface GlobalContextType {
@@ -26,7 +29,12 @@ export const GlobalProvider: React.FunctionComponent<PropsWithChildren> = ({ chi
         author: 'Queen',
         imageSrc: 'https://misc.scdn.co/liked-songs/liked-songs-300.png'
     },
-    searchString: ''
+    searchString: '',
+    filter: {
+      type: SearchType.Track,
+      tagIds: [],
+      genreIds: []
+    }
   });
 
   return (
