@@ -4,6 +4,6 @@ namespace Melody.BusinessLayer.Interfaces
 {
     public interface IPlaylistService
     {
-        Task<IEnumerable<AlbumDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default);
+        Task<IEnumerable<PlaylistDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default);
     }
 }

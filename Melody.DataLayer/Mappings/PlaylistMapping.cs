@@ -14,8 +14,6 @@ namespace Melody.DataLayer.Mappings
         protected override void RegisterMapping()
         {
             CreateMap<PlaylistEntity, Playlist>()
-                .ForMember(model => model.Type, mem => mem
-                    .MapFrom(entity => (PlaylistType)entity.Type))
                .ReverseMap();
         }
     }

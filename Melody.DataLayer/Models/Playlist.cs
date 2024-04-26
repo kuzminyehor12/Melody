@@ -18,8 +18,6 @@ namespace Melody.DataLayer.Models
 
         public bool IsPublic { get; set; } = true;
 
-        public PlaylistType Type { get; set; }
-
         public virtual ICollection<Track> PlaylistedTracks { get; set; }
 
         public virtual ICollection<User> Followers { get; set; }

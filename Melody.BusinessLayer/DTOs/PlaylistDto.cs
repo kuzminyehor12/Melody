@@ -6,8 +6,6 @@ namespace Melody.BusinessLayer.DTOs
     {
         public bool IsPublic { get; set; } = true;
 
-        public PlaylistType Type { get; set; }
-
         public DateTime PublishedAt { get; set; } = DateTime.Now;
 
         public virtual ICollection<Guid> PlaylistedTrackIds { get; set; }

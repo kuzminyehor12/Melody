@@ -12,9 +12,6 @@
 
         public bool IsPublic { get; set; } = true;
 
-        // SongBased, AudioBookBased, PodcastBased
-        public short Type { get; set; }
-
         public Guid CreatorId { get; set; }
 
         public CreatorEntity Creator { get; set; }
