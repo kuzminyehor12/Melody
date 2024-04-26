@@ -28,7 +28,12 @@ namespace Melody.BusinessLayer.Services
 
         protected override IEnumerable<string> AllIncludeProperties()
         {
-            return Enumerable.Empty<string>();
+            return new List<string>
+            {
+                $"{nameof(AudioBookCollection.AudioBooks)}",
+                $"{nameof(AudioBookCollection.Creator)}",
+                $"{nameof(AudioBookCollection.Followers)}"
+            };
         }
     }
 }

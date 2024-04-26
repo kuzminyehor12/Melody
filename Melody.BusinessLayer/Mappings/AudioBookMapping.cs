@@ -1,5 +1,6 @@
 ﻿using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Requests.AudioBooks;
+using Melody.BusinessLayer.Requests.Tracks;
 using Melody.BusinessLayer.Requests.Upload;
 using Melody.DataLayer.Models;
 using Melody.Shared;
@@ -39,6 +40,8 @@ namespace Melody.BusinessLayer.Mappings
                     .MapFrom(_ => new Guid("6ecb9c55-4584-4d3f-abe7-f9ecd5450135")));
 
             CreateMap<AudioBookDto, CreateAudioBookRequest>();
+
+            CreateMap<CreateAudioBookRequest, AudioBook>();
         }
 
         private double GetAudioDuration(UploadAudioRequest request)

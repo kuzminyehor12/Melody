@@ -1,20 +1,59 @@
-﻿using Melody.BusinessLayer.DTOs;
+﻿using AutoMapper;
+using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.AudioBooks;
+using Melody.DataLayer.Infastructure;
+using Melody.DataLayer.Models;
+using Melody.Services.Interfaces;
 using Melody.Shared;
 
 namespace Melody.BusinessLayer.Services
 {
-    public class AudioBookService : IAudioBookService
+    public class AudioBookService : WriteService, IAudioBookService
     {
-        public Task<Result> AddAsync(CreateAudioBookRequest request, CancellationToken cancellationToken)
+        private readonly IFileStorageService _fileStorageService;
+        public AudioBookService(RepositoryContext context, IMapper mapper, IFileStorageService fileStorageService) : base(context, mapper)
         {
-            throw new NotImplementedException();
+            _fileStorageService = fileStorageService;
         }
 
-        public Task<IEnumerable<AudioBookDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken)
+        public async Task<Result> AddAsync(CreateAudioBookRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var audioBook = _mapper.Map<AudioBook>(request);
+            var result = await _context.AudioBooks.CreateAsync(audioBook, cancellationToken);
+            return await SaveChangesAsync(result, cancellationToken);
+        }
+
+        public async Task<IEnumerable<AudioBookDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken)
+        {
+            var audioBooks = await _context.AudioBooks.ArrayAsync(
+               a => a.Title.Contains(searchString) 
+               || a.Author.Contains(searchString) 
+               || a.Description.Contains(searchString) 
+               || a.AudioBookCollection.Title.Contains(searchString),
+               t => t.ListeningsCount,
+               AllIncludeProperties(),
+               true,
+               cancellationToken);
+
+            var dtos = audioBooks.Select(_mapper.Map<AudioBookDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                dto.DownloadUrl = await _fileStorageService.DownloadAsync(dto.Filename);
+            }
+
+            return dtos;
+        }
+
+        protected override IEnumerable<string> AllIncludeProperties()
+        {
+            return new List<string>
+            {
+                $"{nameof(AudioBook.Creator)}",
+                $"{nameof(AudioBook.AudioBookCollection)}",
+                $"{nameof(AudioBook.Followers)}"
+            };
         }
     }
 }

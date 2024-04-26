@@ -6,7 +6,7 @@ namespace Melody.BusinessLayer.Interfaces
 {
     public interface IPodcastService
     {
-        Task<IEnumerable<AudioBookDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken);
+        Task<IEnumerable<PodcastDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken);
 
         Task<Result> AddAsync(CreatePodcastRequest request, CancellationToken cancellationToken = default);
 

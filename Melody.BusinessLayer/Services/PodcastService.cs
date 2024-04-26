@@ -4,13 +4,18 @@ using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Podcasts;
 using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Models;
+using Melody.Services.Interfaces;
 using Melody.Shared;
 
 namespace Melody.BusinessLayer.Services
 {
     public class PodcastService : WriteService, IPodcastService
     {
-        public PodcastService(RepositoryContext context, IMapper mapper) : base(context, mapper) { }
+        private readonly IFileStorageService _fileStorageService;
+        public PodcastService(RepositoryContext context, IMapper mapper, IFileStorageService fileStorageService) : base(context, mapper)
+        {
+            _fileStorageService = fileStorageService;
+        }
 
         public async Task<Result> AddAsync(CreatePodcastRequest request, CancellationToken cancellationToken = default)
         {
@@ -19,9 +24,23 @@ namespace Melody.BusinessLayer.Services
             return await SaveChangesAsync(result, cancellationToken);
         }
 
-        public Task<IEnumerable<AudioBookDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PodcastDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var podcasts = await _context.Podcasts.ArrayAsync(
+               p => p.Title.Contains(searchString) || p.Author.Contains(searchString) || p.Description.Contains(searchString),
+               p => p.ListeningsCount,
+               AllIncludeProperties(),
+               true,
+               cancellationToken);
+
+            var dtos = podcasts.Select(_mapper.Map<PodcastDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                dto.DownloadUrl = await _fileStorageService.DownloadAsync(dto.Filename);
+            }
+
+            return dtos;
         }
 
         public async Task<Result> RemoveAsync(RemovePodcastRequest request, CancellationToken cancellationToken = default)
@@ -32,7 +51,11 @@ namespace Melody.BusinessLayer.Services
 
         protected override IEnumerable<string> AllIncludeProperties()
         {
-            return Enumerable.Empty<string>();
+            return new List<string>
+            {
+                $"{nameof(Podcast.Creator)}",
+                $"{nameof(Podcast.Followers)}"
+            };
         }
     }
 }

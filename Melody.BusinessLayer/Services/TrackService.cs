@@ -82,7 +82,10 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<TrackDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var tracks = await _context.Tracks.ArrayAsync(
-               t => t.Title.Contains(searchString) || t.Author.Contains(searchString) || t.Album.Title.Contains(searchString),
+               t => t.Title.Contains(searchString) 
+               || t.Author.Contains(searchString) 
+               || t.Album.Title.Contains(searchString)
+               || t.Album.Description.Contains(searchString),
                t => t.ListeningsCount,
                AllIncludeProperties(),
                true,
@@ -126,9 +129,11 @@ namespace Melody.BusinessLayer.Services
         {
             return new List<string>
             {
+                $"{nameof(Track.Creator)}",
                 $"{nameof(Track.Genres)}",
                 $"{nameof(Track.Album)}",
-                $"{nameof(Track.Playlists)}"
+                $"{nameof(Track.Playlists)}",
+                $"{nameof(Track.Followers)}"
             };
         }
     }

@@ -16,6 +16,8 @@ namespace Melody.DataLayer.Models
 
         public Guid CreatorId { get; set; }
 
+        public Creator Creator { get; set; }
+
         public virtual ICollection<Track> AlbumedTracks { get; set; }
 
         public virtual ICollection<User> Followers { get; set; }

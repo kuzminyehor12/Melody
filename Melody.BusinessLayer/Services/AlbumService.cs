@@ -24,7 +24,7 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<AlbumDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var albums = await _context.Albums.ArrayAsync(
-               a => a.Author.Contains(searchString),
+               a => a.Author.Contains(searchString) || a.Title.Contains(searchString) || a.Description.Contains(searchString),
                a => a.Title,
                AllIncludeProperties(),
                true,
@@ -35,7 +35,12 @@ namespace Melody.BusinessLayer.Services
 
         protected override IEnumerable<string> AllIncludeProperties()
         {
-            return Enumerable.Empty<string>();
+            return new List<string>
+            {
+                $"{nameof(Album.AlbumedTracks)}",
+                $"{nameof(Album.Creator)}",
+                $"{nameof(Album.Followers)}"
+            };
         }
     }
 }
