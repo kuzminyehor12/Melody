@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.AudioBookCollections;
 using Melody.DataLayer.Infastructure;
@@ -18,6 +19,11 @@ namespace Melody.BusinessLayer.Services
             var collection = _mapper.Map<AudioBookCollection>(request);
             var result = await _context.AudioBookCollections.CreateAsync(collection, cancellationToken);
             return await SaveChangesAsync(result);
+        }
+
+        public Task<IEnumerable<AudioBookCollectionDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
 
         protected override IEnumerable<string> AllIncludeProperties()

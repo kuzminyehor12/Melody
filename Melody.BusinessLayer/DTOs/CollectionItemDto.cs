@@ -2,6 +2,8 @@
 {
     public class CollectionItemDto : BaseDto
     {
+        public string Author { get; set; }
+
         public string Title { get; set; }
 
         public string? Coversheet { get; set; }

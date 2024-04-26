@@ -12,8 +12,6 @@ namespace Melody.BusinessLayer.Requests.Podcasts
 
         public long DurationInMs { get; set; }
 
-        public string? Coversheet { get; set; }
-
         public Guid CreatorId { get; set; }
 
         public string Description { get; set; }
