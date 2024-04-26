@@ -26,7 +26,7 @@ namespace Melody.Server.Controllers
         [HttpGet("albums")]
         public async Task<IActionResult> GetAlbums(string q, CancellationToken cancellationToken)
         {
-            var albums = await _albumService.GetAlbumBySearchString(q, cancellationToken);
+            var albums = await _albumService.GetBySearchStringAsync(q, cancellationToken);
             return Ok(albums);
         }
     }

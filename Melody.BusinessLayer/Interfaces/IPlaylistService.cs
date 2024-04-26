@@ -1,13 +1,9 @@
 ﻿using Melody.BusinessLayer.DTOs;
-using Melody.BusinessLayer.Requests.Albums;
-using Melody.Shared;
 
 namespace Melody.BusinessLayer.Interfaces
 {
-    public interface IAlbumService
+    public interface IPlaylistService
     {
         Task<IEnumerable<AlbumDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default);
-
-        Task<Result> AddAsync(CreateAlbumRequest request, CancellationToken cancellationToken); 
     }
 }

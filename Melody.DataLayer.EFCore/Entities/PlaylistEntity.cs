@@ -6,11 +6,13 @@
 
         public string? Coversheet { get; set; }
 
+        public string Description { get; set; }
+
         public DateTime PublishedAt { get; set; } = DateTime.Now;
 
         public bool IsPublic { get; set; } = true;
 
-        // SongBased, AudioBookBased, PodcastBased, Unknown
+        // SongBased, AudioBookBased, PodcastBased
         public short Type { get; set; }
 
         public Guid CreatorId { get; set; }

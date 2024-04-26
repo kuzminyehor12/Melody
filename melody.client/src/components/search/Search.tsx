@@ -24,7 +24,7 @@ const Search: React.FunctionComponent = () => {
 
         const fetchAudios = async () => {
             if (state?.searchString) {
-                const response = await fetch(`${api.baseUrl}/search/db?query=` + state?.searchString);
+                const response = await fetch(`${api.baseUrl}/search/db?query=${state?.searchString}&audioType=${state.filter?.type}`);
                 const json = await response.json();
                 setAudios(json.map(function (a: any): AudioItem {
                     return {
@@ -39,7 +39,7 @@ const Search: React.FunctionComponent = () => {
                 }) ?? []);
             }
             
-            if (!audios || audios.length < MAX_AUDIOS_LENGTH) {
+            if ((!audios || audios.length < MAX_AUDIOS_LENGTH) && state?.filter?.type === SearchType.Track) {
                 const response = await fetch(`${api.baseUrl}/search/api?query=` + state?.searchString);
                 const json = await response.json();
                 setAudios([...audios, ...json.data?.slice(0, MAX_AUDIOS_LENGTH - audios.length).map(function (a: any): AudioItem {

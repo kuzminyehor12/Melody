@@ -19,6 +19,11 @@ namespace Melody.BusinessLayer.Services
             return await SaveChangesAsync(result, cancellationToken);
         }
 
+        public Task<IEnumerable<AudioBookDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Result> RemoveAsync(RemovePodcastRequest request, CancellationToken cancellationToken = default)
         {
             var result = await _context.Podcasts.DeleteAsync(p => p.Id == request.PodcastId, cancellationToken: cancellationToken);

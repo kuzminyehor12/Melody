@@ -21,7 +21,7 @@ namespace Melody.BusinessLayer.Services
             return await SaveChangesAsync(result);
         }
 
-        public async Task<IEnumerable<AlbumDto>> GetAlbumBySearchString(string searchString, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AlbumDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var albums = await _context.Albums.ArrayAsync(
                a => a.Author.Contains(searchString),

@@ -1,5 +1,6 @@
 ﻿using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Search;
+using Melody.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Melody.Server.Controllers
@@ -23,10 +24,17 @@ namespace Melody.Server.Controllers
         }
 
         [HttpGet("db")]
-        public async Task<IActionResult> SearchDbItems(string query, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> SearchDbItems(string query, SearchType type, CancellationToken cancellationToken = default)
         {
-            var tracks = await _searchService.SearchDbItemsAsync(new SearchItemRequest { SearchString = query }, cancellationToken);
-            return Ok(tracks);
+            var items = await _searchService.SearchDbItemsAsync(new SearchItemRequest { SearchString = query, Type = type }, cancellationToken);
+            return Ok(items);
+        }
+
+        [HttpGet("collection")]
+        public async Task<IActionResult> SearchCollectionDbItems(string query, SearchType collectionType, CancellationToken cancellationToken = default)
+        {
+            var items = await _searchService.SearchCollectionDbItemAsync(new SearchItemRequest { SearchString = query, Type = collectionType }, cancellationToken);
+            return Ok(items);
         }
     }
 }

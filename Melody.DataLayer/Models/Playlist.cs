@@ -1,10 +1,14 @@
-﻿namespace Melody.DataLayer.Models
+﻿using Melody.Shared.Enums;
+
+namespace Melody.DataLayer.Models
 {
     public class Playlist : BaseModel
     {
         public string Title { get; set; }
 
         public string? Coversheet { get; set; }
+
+        public string Description { get; set; }
 
         public DateTime PublishedAt { get; set; }
 
@@ -14,7 +18,7 @@
 
         public bool IsPublic { get; set; } = true;
 
-        public short Type { get; set; }
+        public PlaylistType Type { get; set; }
 
         public virtual ICollection<Track> PlaylistedTracks { get; set; }
 
