@@ -1,22 +1,151 @@
+import { ChangeEvent, createRef, useState } from 'react';
 import AudioList from '../../common/components/audio-list/AudioList';
 import { AudioItem } from '../../common/models/AudioItem';
 import './Playlist.scss';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { CreatePlaylistRequest } from '../../common/requests/CreatePlaylistRequest';
+import api from '../../config/api-config';
 
-const Playlist: React.FunctionComponent = () => {
+type PlaylistProps = {
+    editMode?: boolean;
+}
+
+const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
+    const [request, setRequest] = useState<CreatePlaylistRequest>({ 
+        title: '', 
+        author: '', 
+        coversheet: null, 
+        description: '',
+        tagIds: [],
+        isPublic: false
+    });
+    const fileInputRef = createRef<HTMLInputElement>();
+    const [imageSrc, setImageSrc] = useState<string>('');
+
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const result = e.target?.result as string;
+                setImageSrc(result);
+            };
+            reader.readAsDataURL(file);
+            setRequest({
+                ...request,
+                coversheet: file
+            } as CreatePlaylistRequest);
+        }
+    };
+
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const sendCreationRequest = (
+        onSuccess: () => void, 
+        onFailure: () => void) => {
+        const formData = new FormData();
+        const { coversheet, ...data } = request;
+    
+        formData.append('data', JSON.stringify(data));
+    
+        if (coversheet) {
+          formData.append('file', coversheet, coversheet.name)
+        }
+    
+        fetch(`${api.baseUrl}/playlist`, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            onSuccess();
+          } else {
+            onFailure();
+          }
+        })
+        .catch(err => console.log(err))
+      }
+
+    const createPlaylist = (e: any) => {
+        e.preventDefault();
+        if (request && request.title && request.description) {
+            sendCreationRequest(
+            () => {
+              alert('Playlist has been created successfully!');
+            },
+            () => {
+              alert('The issue found on creating playlist!');
+            })
+        }
+    }
+
+    const defaultImageSrc = (editMode ? 
+        'https://community.spotify.com/t5/image/serverpage/image-id/25294i2836BD1C1A31BDF2/image-size/original?v=mpbl-1&px=-1' 
+        : 'https://misc.scdn.co/liked-songs/liked-songs-300.png');
+    
     return (
         <div className='Playlist'>
             <div className='playlist-info'>
                 <div className="playlist-img">
-                    <img src="https://misc.scdn.co/liked-songs/liked-songs-300.png" alt="Playlist Image" />
+                    {
+                        (!imageSrc ? 
+                        <img
+                            onClick={handleButtonClick}
+                            src={defaultImageSrc}
+                            alt="Playlist Image"
+                            className='img-hover'
+                            style={{ maxWidth: '300px', maxHeight: '300px' }}
+                        /> : 
+                        <img
+                            onClick={handleButtonClick}
+                            src={imageSrc}
+                            alt="Playlist Image"
+                            style={{ maxWidth: '300px', maxHeight: '300px' }}
+                        />)
+                    }
+                    { editMode && <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />}
                 </div>
                 <div className="playlist-text">
                     <span>Playlist</span>
-                    <h1 className='playlist-title'>Liked Songs</h1>
-                    <p className='playlist-desc'>Music for concentration</p>
+                    <h1 className='playlist-title'>
+                        { editMode ? 
+                        <input 
+                            type='text' 
+                            placeholder='Enter title'
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setRequest({
+                                    ...request,
+                                    title: e.target.value
+                                } as CreatePlaylistRequest);
+                            }}
+                         /> : 
+                        'Liked Songs'}
+                    </h1>
+                    <p className='playlist-desc'>
+                        { editMode ? 
+                        <input 
+                            type='text' 
+                            placeholder='Enter description'
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setRequest({
+                                    ...request,
+                                    description: e.target.value
+                                } as CreatePlaylistRequest);
+                            }}
+                         /> : 
+                        'Music for concentration'}
+                    </p>
                     <div className="playlist-extra">
                         <span>Provided by Melody</span>
                         <span>&#9702;</span>
@@ -24,6 +153,21 @@ const Playlist: React.FunctionComponent = () => {
                         <span>&#9702;</span>
                         <span>600 000 likes</span>
                     </div>
+                    {editMode && 
+                    <div className="playlist-checkbox">
+                        <input 
+                            type='checkbox' 
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                setRequest({
+                                    ...request,
+                                    isPublic: e.target.checked
+                                } as CreatePlaylistRequest);
+                            }} 
+                        />
+                        <label>Make playlist public</label>
+                    </div>
+                    }
+                    {editMode && <button className='create-playlist-btn' type="submit" onClick={createPlaylist}>Create</button> }
                 </div>
             </div>
             <div className="playlist-controls">

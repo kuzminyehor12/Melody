@@ -30,6 +30,7 @@ namespace Melody.Server.Extensions
             services.AddTransient<IAlbumService, AlbumService>();
             services.AddTransient<IAudioBookService, AudioBookService>();
             services.AddTransient<IPodcastService, PodcastService>();
+            services.AddTransient<IPlaylistService, PlaylistService>();
             services.AddTransient<IAudioBookCollectionService, AudioBookCollectionService>();
         }
     }

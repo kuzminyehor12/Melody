@@ -17,7 +17,7 @@ const Sidebar: React.FunctionComponent = () => {
         links.forEach(a => a.classList.remove('active'));
         e.currentTarget.classList.add('active');
     }
-    
+
     const openUploadAudioForm = () => {
         setOpenUpload(true);
     }
@@ -44,7 +44,9 @@ const Sidebar: React.FunctionComponent = () => {
             <hr />
             <div className='nav-links'>
                 <ul>
-                    <li><AddCircleOutlineIcon /> <span>Create Playlist</span></li>
+                    <DefaultLink to='/playlist'>
+                        <li><AddCircleOutlineIcon /> <span>Create Playlist</span></li>
+                    </DefaultLink>
                     <li onClick={openUploadAudioForm}><FileUploadIcon /> <span>Upload Audio</span></li>
                     <UploadAudioForm opened={openUpload} setOpened={setOpenUpload}/>
                 </ul>

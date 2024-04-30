@@ -70,6 +70,7 @@ const App: React.FunctionComponent = () => {
                             <Route path='/search' element={<Search />}/>
                             <Route path='/my-library' element={<MyLibrary />}/>
                             <Route path='/playlist/:id' element={<Playlist />}/>
+                            <Route path='/playlist' element={<Playlist editMode={true} />}/>
                         </Routes>
                     </div>
                 </div>
