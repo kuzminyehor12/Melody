@@ -1,5 +1,4 @@
-﻿using Melody.Shared.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using Melody.BusinessLayer.Utils;
 
 namespace Melody.BusinessLayer.Requests.Upload
 {
@@ -7,6 +6,6 @@ namespace Melody.BusinessLayer.Requests.Upload
     {
         public UploadAudioDataRequest Data { get; set; }
 
-        public IFormFile? File { get; set; }
+        public PersistentFile? File { get; set; }
     }
 }

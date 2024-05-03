@@ -4,6 +4,7 @@ using Melody.DataLayer.EFCore.Infrastructure;
 using Melody.DataLayer.Infrastructure;
 using Melody.DataLayer.Interfaces;
 using Melody.DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Melody.DataLayer.Infastructure
 {
@@ -12,9 +13,12 @@ namespace Melody.DataLayer.Infastructure
         public PlaylistRepository(MelodyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
-        protected override Task<PlaylistEntity> PopulateEntity(Playlist entity)
+        protected override async Task<PlaylistEntity> PopulateEntity(Playlist model)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<PlaylistEntity>(model);
+            var tags = await _dbContext.Tags.Where(t => model.Tags.Select(t => t.Id).Contains(t.Id)).ToListAsync();
+            entity.Tags = tags;
+            return entity;
         }
     }
 }

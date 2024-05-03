@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Melody.BusinessLayer.Utils;
+using Microsoft.AspNetCore.Http;
 
 namespace Melody.BusinessLayer.Requests.Playlists
 {
@@ -6,6 +7,6 @@ namespace Melody.BusinessLayer.Requests.Playlists
     {
         public CreatePlaylistDataRequest Data { get; set; }
 
-        public IFormFile? File { get; set; }
+        public PersistentFile? File { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Podcasts;
+using Melody.BusinessLayer.Utils;
 using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Models;
 using Melody.Services.Interfaces;
@@ -37,7 +38,12 @@ namespace Melody.BusinessLayer.Services
 
             foreach (var dto in dtos)
             {
-                dto.DownloadUrl = await _fileStorageService.DownloadAsync(dto.Filename);
+                if (!string.IsNullOrEmpty(dto.Coversheet))
+                {
+                    dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
+                }
+
+                dto.DownloadUrl = await _fileStorageService.DownloadAsync(BucketName.Audios, dto.Filename);
             }
 
             return dtos;

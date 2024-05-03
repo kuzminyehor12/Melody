@@ -78,6 +78,7 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
             sendCreationRequest(
             () => {
               alert('Playlist has been created successfully!');
+              location.href = '/';
             },
             () => {
               alert('The issue found on creating playlist!');

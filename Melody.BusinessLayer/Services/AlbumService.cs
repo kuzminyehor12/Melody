@@ -2,16 +2,20 @@
 using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Albums;
+using Melody.BusinessLayer.Utils;
 using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Models;
+using Melody.Services.Interfaces;
 using Melody.Shared;
 
 namespace Melody.BusinessLayer.Services
 {
     public class AlbumService : WriteService, IAlbumService
     {
-        public AlbumService(RepositoryContext context, IMapper mapper) : base(context, mapper)
+        private readonly IFileStorageService _fileStorageService;
+        public AlbumService(RepositoryContext context, IMapper mapper, IFileStorageService fileStorageService) : base(context, mapper)
         {
+            _fileStorageService = fileStorageService;
         }
 
         public async Task<Result> AddAsync(CreateAlbumRequest request, CancellationToken cancellationToken)
@@ -30,7 +34,17 @@ namespace Melody.BusinessLayer.Services
                true,
                cancellationToken);
 
-            return albums.Select(_mapper.Map<AlbumDto>);
+            var dtos = albums.Select(_mapper.Map<AlbumDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                if (!string.IsNullOrEmpty(dto.Coversheet))
+                {
+                    dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
+                }
+            }
+
+            return dtos;
         }
 
         protected override IEnumerable<string> AllIncludeProperties()

@@ -2,6 +2,7 @@
 using Melody.BusinessLayer.Requests.Playlists;
 using Melody.BusinessLayer.Requests.Upload;
 using Melody.BusinessLayer.Services;
+using Melody.BusinessLayer.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -28,7 +29,7 @@ namespace Melody.Server.Controllers
             var createRequest = new CreatePlaylistRequest
             {
                 Data = JsonConvert.DeserializeObject<CreatePlaylistDataRequest>(formCollection["data"]),
-                File = formCollection.Files.Any() ? formCollection.Files[0] : null
+                File = formCollection.Files.Any() ? new PersistentFile(formCollection.Files[0]) : null
             };
 
             var result = await _playlistService.AddAsync(createRequest, cancellationToken);

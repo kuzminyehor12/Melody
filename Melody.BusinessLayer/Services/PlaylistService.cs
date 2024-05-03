@@ -46,7 +46,17 @@ namespace Melody.BusinessLayer.Services
               true,
               cancellationToken);
 
-            return playlists.Select(_mapper.Map<PlaylistDto>);
+            var dtos = playlists.Select(_mapper.Map<PlaylistDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                if (!string.IsNullOrEmpty(dto.Coversheet))
+                {
+                    dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
+                }
+            }
+
+            return dtos;
         }
 
         protected override IEnumerable<string> AllIncludeProperties()

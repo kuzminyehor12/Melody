@@ -57,14 +57,14 @@ namespace Melody.BusinessLayer.Mappings
             {
                 if (request.File.ContentType == "audio/wav" || request.File.ContentType == "audio/wave")
                 {
-                    using (var stream = request.File.OpenReadStream())
+                    using (var stream = request.File.Read())
                     {
                         return WavUtils.GetAudioDuration(stream);
                     }
                 }
                 else
                 {
-                    using (var stream = request.File.OpenReadStream())
+                    using (var stream = request.File.Read())
                     {
                         return Mp3Utils.GetAudioDuration(stream);
                     }

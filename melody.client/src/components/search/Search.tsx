@@ -64,7 +64,7 @@ const Search: React.FunctionComponent = () => {
                     return {
                         id: c.id,
                         title: c.title,
-                        coversheetSrc: c.coversheet,
+                        coversheetSrc: c.coversheetUrl,
                         author: c.author,
                         description: c.description
                     };
@@ -90,7 +90,7 @@ const Search: React.FunctionComponent = () => {
                     cards={collections.map(c => {
                         return {
                             id: c.id,
-                            title: c.title + ' by ' + c.author,
+                            title: c.title + ' by ' + (c.author ?? 'Unknown'),
                             description: c.description,
                             imageUrl: c.coversheetSrc
                         } as Card;

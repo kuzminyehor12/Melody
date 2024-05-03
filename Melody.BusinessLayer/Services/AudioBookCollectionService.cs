@@ -2,16 +2,20 @@
 using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.AudioBookCollections;
+using Melody.BusinessLayer.Utils;
 using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Models;
+using Melody.Services.Interfaces;
 using Melody.Shared;
 
 namespace Melody.BusinessLayer.Services
 {
     public class AudioBookCollectionService : WriteService, IAudioBookCollectionService
     {
-        public AudioBookCollectionService(RepositoryContext context, IMapper mapper) : base(context, mapper)
+        private readonly IFileStorageService _fileStorageService;
+        public AudioBookCollectionService(RepositoryContext context, IMapper mapper, IFileStorageService fileStorageService) : base(context, mapper)
         {
+            _fileStorageService = fileStorageService;
         }
 
         public async Task<Result> AddAsync(CreateAudioBookCollectionRequest request, CancellationToken cancellationToken)
@@ -21,9 +25,27 @@ namespace Melody.BusinessLayer.Services
             return await SaveChangesAsync(result);
         }
 
-        public Task<IEnumerable<AudioBookCollectionDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AudioBookCollectionDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var collections = await _context.AudioBookCollections.ArrayAsync(
+              abc => abc.Title.Contains(searchString)
+              || abc.Description.Contains(searchString),
+              t => t.Followers.Count(),
+              AllIncludeProperties(),
+              true,
+              cancellationToken);
+
+            var dtos = collections.Select(_mapper.Map<AudioBookCollectionDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                if (!string.IsNullOrEmpty(dto.Coversheet))
+                {
+                    dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
+                }
+            }
+
+            return dtos;
         }
 
         protected override IEnumerable<string> AllIncludeProperties()

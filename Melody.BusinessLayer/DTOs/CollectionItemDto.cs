@@ -13,5 +13,7 @@
         public Guid CreatorId { get; set; }
 
         public int FollowersCount { get; set; }
+
+        public string? CoversheetUrl { get; set; }
     }
 }

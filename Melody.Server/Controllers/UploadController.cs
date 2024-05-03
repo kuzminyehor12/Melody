@@ -1,5 +1,6 @@
 ﻿using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Upload;
+using Melody.BusinessLayer.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -25,7 +26,7 @@ namespace Melody.Server.Controllers
             var uploadRequest = new UploadAudioRequest
             {
                 Data = JsonConvert.DeserializeObject<UploadAudioDataRequest>(formCollection["data"]),
-                File = formCollection.Files.Any() ? formCollection.Files[0] : null
+                File = formCollection.Files.Any() ? new PersistentFile(formCollection.Files[0]) : null
             };
 
             var result = await _uploadService.UploadAudioAsync(uploadRequest, cancellationToken);
