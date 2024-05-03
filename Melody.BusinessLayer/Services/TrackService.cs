@@ -83,10 +83,10 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<TrackDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var tracks = await _context.Tracks.ArrayAsync(
-               t => t.Title.Contains(searchString) 
-               || t.Author.Contains(searchString) 
-               || t.Album.Title.Contains(searchString)
-               || t.Album.Description.Contains(searchString),
+               t => t.Title.ToLower().Contains(searchString.ToLower()) 
+               || t.Author.ToLower().Contains(searchString.ToLower()) 
+               || t.Album.Title.ToLower().Contains(searchString.ToLower())
+               || t.Album.Description.ToLower().Contains(searchString.ToLower()),
                t => t.ListeningsCount,
                AllIncludeProperties(),
                true,
@@ -100,7 +100,7 @@ namespace Melody.BusinessLayer.Services
                 {
                     dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
                 }
-                
+
                 dto.DownloadUrl = await _fileStorageService.DownloadAsync(BucketName.Audios, dto.Filename);
             }
 

@@ -40,8 +40,10 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<PlaylistDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var playlists = await _context.Playlists.ArrayAsync(
-              p => (p.Title.Contains(searchString) || p.Description.Contains(searchString)) && p.IsPublic,
-              a => a.Title,
+              p => (p.Title.ToLower().Contains(searchString.ToLower()) 
+              || p.Description.ToLower().Contains(searchString.ToLower())) 
+              && p.IsPublic,
+              a => a.Followers.Count(),
               AllIncludeProperties(),
               true,
               cancellationToken);

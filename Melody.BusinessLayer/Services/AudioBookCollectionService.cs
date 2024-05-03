@@ -28,8 +28,8 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<AudioBookCollectionDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var collections = await _context.AudioBookCollections.ArrayAsync(
-              abc => abc.Title.Contains(searchString)
-              || abc.Description.Contains(searchString),
+              abc => abc.Title.ToLower().Contains(searchString.ToLower())
+              || abc.Description.ToLower().Contains(searchString.ToLower()),
               t => t.Followers.Count(),
               AllIncludeProperties(),
               true,

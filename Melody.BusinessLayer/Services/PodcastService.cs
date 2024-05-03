@@ -28,7 +28,9 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<PodcastDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken)
         {
             var podcasts = await _context.Podcasts.ArrayAsync(
-               p => p.Title.Contains(searchString) || p.Author.Contains(searchString) || p.Description.Contains(searchString),
+               p => p.Title.ToLower().Contains(searchString.ToLower()) 
+               || p.Author.ToLower().Contains(searchString.ToLower()) 
+               || p.Description.ToLower().Contains(searchString.ToLower()),
                p => p.ListeningsCount,
                AllIncludeProperties(),
                true,

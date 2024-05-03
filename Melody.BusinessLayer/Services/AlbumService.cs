@@ -28,8 +28,10 @@ namespace Melody.BusinessLayer.Services
         public async Task<IEnumerable<AlbumDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default)
         {
             var albums = await _context.Albums.ArrayAsync(
-               a => a.Author.Contains(searchString) || a.Title.Contains(searchString) || a.Description.Contains(searchString),
-               a => a.Title,
+               a => a.Author.ToLower().Contains(searchString.ToLower()) 
+               || a.Title.ToLower().Contains(searchString.ToLower()) 
+               || a.Description.ToLower().Contains(searchString.ToLower()),
+               a => a.Followers.Count(),
                AllIncludeProperties(),
                true,
                cancellationToken);
