@@ -32,7 +32,7 @@ const Search: React.FunctionComponent = () => {
                         title: a.title,
                         audioSrc: a.downloadUrl,
                         author: a.author,
-                        imageSrc: a.coversheet,
+                        imageSrc: a.coversheetUrl,
                         duration: a.durationInMs,
                         progress: 0
                     };

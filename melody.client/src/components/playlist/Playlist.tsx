@@ -7,6 +7,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { CreatePlaylistRequest } from '../../common/requests/CreatePlaylistRequest';
 import api from '../../config/api-config';
+import { defaultImageSrc } from '../../contexts/GlobalContext';
 
 type PlaylistProps = {
     editMode?: boolean;
@@ -83,31 +84,17 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
             })
         }
     }
-
-    const defaultImageSrc = (editMode ? 
-        'https://community.spotify.com/t5/image/serverpage/image-id/25294i2836BD1C1A31BDF2/image-size/original?v=mpbl-1&px=-1' 
-        : 'https://misc.scdn.co/liked-songs/liked-songs-300.png');
     
     return (
         <div className='Playlist'>
             <div className='playlist-info'>
                 <div className="playlist-img">
-                    {
-                        (!imageSrc ? 
-                        <img
-                            onClick={handleButtonClick}
-                            src={defaultImageSrc}
-                            alt="Playlist Image"
-                            className='img-hover'
-                            style={{ maxWidth: '300px', maxHeight: '300px' }}
-                        /> : 
-                        <img
-                            onClick={handleButtonClick}
-                            src={imageSrc}
-                            alt="Playlist Image"
-                            style={{ maxWidth: '300px', maxHeight: '300px' }}
-                        />)
-                    }
+                    <img
+                        onClick={handleButtonClick}
+                        src={!imageSrc ? defaultImageSrc : imageSrc}
+                        alt="Playlist Image"
+                        style={{ maxWidth: '300px', maxHeight: '300px' }}
+                    />
                     { editMode && <input
                         type="file"
                         ref={fileInputRef}

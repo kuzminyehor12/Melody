@@ -21,5 +21,7 @@
         public Guid CreatorId { get; set; }
 
         public string? DownloadUrl { get; set; }
+
+        public string? CoversheetUrl { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useGlobalContext } from '../../contexts/GlobalContext';
+import { defaultImageSrc, useGlobalContext } from '../../contexts/GlobalContext';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -116,7 +116,7 @@ const Player: React.FunctionComponent = () => {
             />
             <div className="player-info">
                 <div className="item-img">
-                    <img src={state.current.imageSrc ?? 'https://misc.scdn.co/liked-songs/liked-songs-300.png'} alt="Audio Image" />
+                    <img src={state.current.imageSrc ?? defaultImageSrc} alt="Audio Image" />
                 </div>
                 <div className="item-text">
                     <p className='item-title'>{state.current.title}</p>

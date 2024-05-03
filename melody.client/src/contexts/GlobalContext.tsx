@@ -20,6 +20,8 @@ const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export const useGlobalContext = () => useContext(GlobalContext);
 
+export const defaultImageSrc = 'https://community.spotify.com/t5/image/serverpage/image-id/25294i2836BD1C1A31BDF2/image-size/original?v=mpbl-1&px=-1';
+
 export const GlobalProvider: React.FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [state, setState] = useState<GlobalState>({ 
     isPlaying: false, 
@@ -27,7 +29,7 @@ export const GlobalProvider: React.FunctionComponent<PropsWithChildren> = ({ chi
         id: '-1',
         title: 'Another One Bites The Dust',
         author: 'Queen',
-        imageSrc: 'https://misc.scdn.co/liked-songs/liked-songs-300.png'
+        imageSrc: defaultImageSrc
     },
     searchString: '',
     filter: {
