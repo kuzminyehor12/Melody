@@ -47,46 +47,24 @@ namespace Melody.BusinessLayer.Services
 
         public async Task<IEnumerable<CollectionItemDto>> SearchCollectionDbItemAsync(SearchItemRequest request, CancellationToken cancellationToken = default)
         {
-            var items = Enumerable.Empty<CollectionItemDto>();
-
-            switch (request.Type)
+            IEnumerable<CollectionItemDto> items = request.Type switch
             {
-                case SearchType.Album:
-                    items = await _albumService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-                case SearchType.AudiobookCollection:
-                    items = await _audioBookCollectionService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-                case SearchType.Playlist:
-                    items = await _playlistService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-                default:
-                    items = await _playlistService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-            }
+                SearchType.Album => await _albumService.GetBySearchStringAsync(request.SearchString, cancellationToken),
+                SearchType.AudiobookCollection => await _audioBookCollectionService.GetBySearchStringAsync(request.SearchString, cancellationToken),
+                _ => await _playlistService.GetBySearchStringAsync(request.SearchString, cancellationToken)
+            };
 
             return items;
         }
 
         public async Task<IEnumerable<AudioItemDto>> SearchDbItemsAsync(SearchItemRequest request, CancellationToken cancellationToken = default)
         {
-            var items = Enumerable.Empty<AudioItemDto>();
-
-            switch (request.Type)
+            IEnumerable<AudioItemDto> items = request.Type switch
             {
-                case SearchType.Track:
-                    items = await _trackService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-                case SearchType.Podcast:
-                    items = await _podcastService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-                case SearchType.Audiobook:
-                    items = await _audioBookService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-                default:
-                    items = await _audioBookService.GetBySearchStringAsync(request.SearchString, cancellationToken);
-                    break;
-            }
+                SearchType.Podcast => await _podcastService.GetBySearchStringAsync(request.SearchString, cancellationToken),
+                SearchType.Audiobook => await _audioBookService.GetBySearchStringAsync(request.SearchString, cancellationToken),
+                _ => await _trackService.GetBySearchStringAsync(request.SearchString, cancellationToken)
+            };
 
             return items;
         }

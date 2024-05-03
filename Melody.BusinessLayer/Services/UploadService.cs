@@ -3,6 +3,8 @@ using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Upload;
 using Melody.BusinessLayer.Strategies;
+using Melody.BusinessLayer.Tasks;
+using Melody.BusinessLayer.Utils;
 using Melody.Services.Interfaces;
 using Melody.Shared;
 using Melody.Shared.Enums;
@@ -29,24 +31,19 @@ namespace Melody.BusinessLayer.Services
             BaseDto dto = CreateDto(request);
        
             var result = await _uploadStrategy.UploadAsync(dto, cancellationToken);
-
-            var uploadTask = async () =>
-            {
-                if (request.File is not null)
-                {
-                    using (var stream = request.File.OpenReadStream())
-                    {
-                        var innerResult = await _fileStorageService.PutAsync(request.File.FileName, stream, cancellationToken);
-                        return innerResult;
-                    }
-                }
-
-                return request.Data.Type == AudioType.AudiobookCollection || request.Data.Type == AudioType.Album 
-                ? Result.Success() 
-                : Result.Failure();
-            };
             
-            return await result.OnSuccess(uploadTask);
+            return await result.OnSuccess(GetUploadTask());
+
+            Func<Task<Result>> GetUploadTask() =>
+                TaskProvider.CreateUploadTask(
+                    file: request.File,
+                    bucketName: BucketName.Audios,
+                    onNull: () => request.Data.Type == AudioType.AudiobookCollection || request.Data.Type == AudioType.Album
+                    ? Result.Success()
+                    : Result.Failure(),
+                    fileStorageService: _fileStorageService,
+                    cancellationToken
+                );
         }
 
         private BaseDto CreateDto(UploadAudioRequest request)

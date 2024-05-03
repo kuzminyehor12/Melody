@@ -14,8 +14,7 @@ type PlaylistProps = {
 
 const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
     const [request, setRequest] = useState<CreatePlaylistRequest>({ 
-        title: '', 
-        author: '', 
+        title: '',
         coversheet: null, 
         description: '',
         tagIds: [],
@@ -58,7 +57,7 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
           formData.append('file', coversheet, coversheet.name)
         }
     
-        fetch(`${api.baseUrl}/playlist`, {
+        fetch(`${api.baseUrl}/playlists`, {
           method: 'POST',
           body: formData
         })
@@ -154,18 +153,18 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
                         <span>600 000 likes</span>
                     </div>
                     {editMode && 
-                    <div className="playlist-checkbox">
-                        <input 
-                            type='checkbox' 
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                setRequest({
-                                    ...request,
-                                    isPublic: e.target.checked
-                                } as CreatePlaylistRequest);
-                            }} 
-                        />
-                        <label>Make playlist public</label>
-                    </div>
+                        <div className="playlist-checkbox">
+                            <input 
+                                type='checkbox' 
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                    setRequest({
+                                        ...request,
+                                        isPublic: e.target.checked
+                                    } as CreatePlaylistRequest);
+                                }} 
+                            />
+                            <label>Make playlist public</label>
+                        </div>
                     }
                     {editMode && <button className='create-playlist-btn' type="submit" onClick={createPlaylist}>Create</button> }
                 </div>
