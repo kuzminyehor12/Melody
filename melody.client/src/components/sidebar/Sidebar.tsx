@@ -8,9 +8,11 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from 'react';
 import UploadAudioForm from '../upload-audio-form/UploadAudioForm';
+import { useGlobalContext } from '../../contexts/GlobalContext';
 
 const Sidebar: React.FunctionComponent = () => {
     const [openUpload, setOpenUpload] = useState(false);
+    const { state } = useGlobalContext() ?? { };
 
     const doActive = (e: React.MouseEvent<HTMLLIElement>) => {
         const links = document.querySelectorAll('li');
@@ -42,7 +44,7 @@ const Sidebar: React.FunctionComponent = () => {
                 </ul>
             </div>
             <hr />
-            <div className='nav-links'>
+            {!state?.currentUser?.isAnonymous && <div className='nav-links'>
                 <ul>
                     <DefaultLink to='/playlist'>
                         <li><AddCircleOutlineIcon /> <span>Create Playlist</span></li>
@@ -50,7 +52,7 @@ const Sidebar: React.FunctionComponent = () => {
                     <li onClick={openUploadAudioForm}><FileUploadIcon /> <span>Upload Audio</span></li>
                     <UploadAudioForm opened={openUpload} setOpened={setOpenUpload}/>
                 </ul>
-            </div>
+            </div>}
         </div>
     );
 }

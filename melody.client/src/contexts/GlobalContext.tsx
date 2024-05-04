@@ -2,13 +2,15 @@ import React, { PropsWithChildren, createContext, useContext, useState } from 'r
 import { AudioItem } from '../common/models/AudioItem';
 import { FilterOptions } from '../common/models/FilterOptions';
 import { SearchType } from '../common/enums/SearchType';
+import { Identity } from '../common/models/Identity';
 
 interface GlobalState {
-    isPlaying: boolean;
+    isPlaying?: boolean;
     current?: AudioItem;
     queue?: AudioItem[];
-    searchString: string;
+    searchString?: string;
     filter?: FilterOptions;
+    currentUser?: Identity;
 }
 
 interface GlobalContextType {
@@ -36,6 +38,12 @@ export const GlobalProvider: React.FunctionComponent<PropsWithChildren> = ({ chi
       type: SearchType.Track,
       tagIds: [],
       genreIds: []
+    },
+    currentUser: {
+      email: '',
+      uid: '',
+      displayName: '',
+      isAnonymous: true
     }
   });
 

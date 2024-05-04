@@ -13,6 +13,8 @@ import { ChangeEvent, useState } from 'react';
 import Playlist from './components/playlist/Playlist';
 import TuneIcon from '@mui/icons-material/Tune';
 import FilterPanel from './components/filter-panel/FilterPanel';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from './config/firebase.config';
 
 const App: React.FunctionComponent = () => {
     const location = useLocation();
@@ -31,6 +33,38 @@ const App: React.FunctionComponent = () => {
 
     const toggleFilter = () => {
         setFilterOpen(!filterOpen);
+    }
+
+    const tryLogin = () => {
+        signInWithPopup(auth, provider)
+        .then(data => {
+            if (setState) {
+                setState({
+                    ...state,
+                    currentUser: {
+                        displayName: data.user.displayName ?? '',
+                        email: data.user.email ?? '',
+                        uid: data.user.uid ?? '',
+                        isAnonymous: false
+                    }
+                })
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+    const tryLogout = () => {
+        if (setState) {
+            setState({
+                ...state,
+                currentUser: {
+                    displayName: '',
+                    email: '',
+                    uid: '',
+                    isAnonymous: true
+                }
+            })
+        }
     }
 
     return (
@@ -63,6 +97,13 @@ const App: React.FunctionComponent = () => {
                                     <TuneIcon />
                                     <FilterPanel opened={filterOpen}/>
                                 </div>
+                            </div>
+                            <div className="login-wrapper">
+                                {
+                                    state?.currentUser?.isAnonymous ? 
+                                    <div className="login-btn" onClick={tryLogin}><span>Login</span></div> :
+                                    <div className="login-btn" onClick={tryLogout}><span>Logout</span></div>
+                                }
                             </div>
                         </div>
                         <Routes>
