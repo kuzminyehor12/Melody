@@ -21,5 +21,7 @@
         public virtual ICollection<TagEntity> Tags { get; set; }
 
         public virtual ICollection<UserEntity> Followers { get; set; }
+
+        public string[] ExternalIds { get; set; }
     }
 }

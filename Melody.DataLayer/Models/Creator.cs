@@ -2,18 +2,6 @@
 {
     public class Creator : BaseModel
     {
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public string Email { get; set; }
-
-        public string? Image { get; set; }
-
-        public bool Verified { get; set; } = false;
-
-        public DateTime RegisteredAt { get; set; }
-
         public User User { get; set; }
 
         public virtual ICollection<Podcast> Podcasts { get; set; }
