@@ -61,6 +61,49 @@ namespace Melody.BusinessLayer.Services
             return dtos;
         }
 
+        public async Task<IEnumerable<PlaylistDto>> GetCreatedPlaylistsByUidAsync(string uid, CancellationToken cancellationToken = default)
+        {
+            var navigationProperties = new List<string>
+            {
+                 $"{nameof(User.Creator)}",
+                 $"{nameof(User.Creator)}.{nameof(Creator.Playlists)}"
+            };
+
+            var user = await _context.Users.FirstAsync(u => u.Uid == uid, navigationProperties, cancellationToken);
+            var dtos = user.Creator.Playlists.Select(_mapper.Map<PlaylistDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                if (!string.IsNullOrEmpty(dto.Coversheet))
+                {
+                    dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
+                }
+            }
+
+            return dtos;
+        }
+
+        public async Task<IEnumerable<PlaylistDto>> GetFollowedPlaylistsByUidAsync(string uid, CancellationToken cancellationToken = default)
+        {
+            var navigationProperties = new List<string>
+            {
+                 $"{nameof(User.FollowedPlaylists)}",
+            };
+
+            var user = await _context.Users.FirstAsync(u => u.Uid == uid, navigationProperties, cancellationToken);
+            var dtos = user.FollowedPlaylists.Select(_mapper.Map<PlaylistDto>).ToList();
+
+            foreach (var dto in dtos)
+            {
+                if (!string.IsNullOrEmpty(dto.Coversheet))
+                {
+                    dto.CoversheetUrl = await _fileStorageService.DownloadAsync(BucketName.Coversheets, dto.Coversheet);
+                }
+            }
+
+            return dtos;
+        }
+
         protected override IEnumerable<string> AllIncludeProperties()
         {
             return new List<string>

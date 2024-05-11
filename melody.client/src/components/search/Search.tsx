@@ -77,8 +77,6 @@ const Search: React.FunctionComponent = () => {
         } else {
             fetchCollections();
         }
-
-        
     }, [state?.searchString, state?.filter])
 
     return (

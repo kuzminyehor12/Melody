@@ -9,7 +9,7 @@
     padding: 1rem;
 
     .audio-info {
-        flex: 0.8;
+        flex: 0.7;
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -25,6 +25,14 @@
                 color: rgba(255, 255, 255, 0.7);
             }
         }
+    }
+
+    .audio-controls {
+        flex: 0.2;
+        display: flex;
+        align-items: end;
+        justify-content: end;
+        column-gap: 10px;
     }
 
     &:hover {

@@ -4,6 +4,8 @@
     {
         public User User { get; set; }
 
+        public virtual ICollection<Playlist> Playlists { get; set; }
+
         public virtual ICollection<Podcast> Podcasts { get; set; }
 
         public virtual ICollection<Track> Tracks { get; set; }

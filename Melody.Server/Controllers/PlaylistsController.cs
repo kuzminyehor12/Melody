@@ -42,5 +42,19 @@ namespace Melody.Server.Controllers
             Debug.WriteLine(JsonConvert.SerializeObject(result.Errors));
             return BadRequest();
         }
+
+        [HttpGet("followed/{uid}")]
+        public async Task<IActionResult> GetFollowedPlaylists(string uid, CancellationToken cancellationToken)
+        {
+            var playlists = await _playlistService.GetFollowedPlaylistsByUidAsync(uid, cancellationToken);
+            return Ok(playlists);
+        }
+
+        [HttpGet("created/{uid}")]
+        public async Task<IActionResult> GetCreatedPlaylists(string uid, CancellationToken cancellationToken)
+        {
+            var playlists = await _playlistService.GetCreatedPlaylistsByUidAsync(uid, cancellationToken);
+            return Ok(playlists);
+        }
     }
 }

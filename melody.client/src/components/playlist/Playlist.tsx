@@ -8,6 +8,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { CreatePlaylistRequest } from '../../common/requests/CreatePlaylistRequest';
 import api from '../../config/api-config';
 import { defaultImageSrc, useGlobalContext } from '../../contexts/GlobalContext';
+import { useParams } from 'react-router-dom';
 
 type PlaylistProps = {
     editMode?: boolean;
@@ -15,6 +16,7 @@ type PlaylistProps = {
 
 const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
     const { state } = useGlobalContext() ?? { }
+    const { id } = useParams();
     const [request, setRequest] = useState<CreatePlaylistRequest>({ 
         title: '',
         coversheet: null, 
@@ -79,13 +81,14 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
         e.preventDefault();
         if (request && request.title && request.description) {
             sendCreationRequest(
-            () => {
-              alert('Playlist has been created successfully!');
-              location.href = '/';
-            },
-            () => {
-              alert('The issue found on creating playlist!');
-            })
+                () => {
+                    alert('Playlist has been created successfully!');
+                    location.href = '/';
+                },
+                () => {
+                    alert('The issue found on creating playlist!');
+                }
+            )
         }
     }
     

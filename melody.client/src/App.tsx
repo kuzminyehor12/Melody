@@ -18,7 +18,7 @@ import { auth, provider } from './config/firebase.config';
 import api from './config/api-config';
 
 const App: React.FunctionComponent = () => {
-    const location = useLocation();
+    const loc = useLocation();
     const [filterOpen, setFilterOpen] = useState<boolean>(false);
     const { state, setState } = useGlobalContext() ?? { };
 
@@ -101,7 +101,8 @@ const App: React.FunctionComponent = () => {
                     uid: '',
                     isAnonymous: true
                 }
-            })
+            });
+            location.href = '/';
         }
     }
 
@@ -127,8 +128,8 @@ const App: React.FunctionComponent = () => {
                                 <input 
                                     type="text" 
                                     className="search-text" 
-                                    placeholder={!location.pathname.includes('search') ? 'Go to search' : 'What do you want to play?'}
-                                    disabled={!location.pathname.includes('search')}
+                                    placeholder={!loc.pathname.includes('search') ? 'Go to search' : 'What do you want to play?'}
+                                    disabled={!loc.pathname.includes('search')}
                                     onChange={setSearchItem} 
                                 />
                                 <div className="filter-icon" onClick={toggleFilter}>
