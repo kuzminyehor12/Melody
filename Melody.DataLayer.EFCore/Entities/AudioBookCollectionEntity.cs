@@ -8,7 +8,7 @@
 
         public string Description { get; set; } = string.Empty;
 
-        public DateTime PublishedAt { get; set; } = DateTime.Now;
+        public DateTime PublishedAt { get; set; }
 
         public Guid CreatorId { get; set; }
 

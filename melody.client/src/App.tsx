@@ -13,8 +13,9 @@ import { ChangeEvent, useState } from 'react';
 import Playlist from './components/playlist/Playlist';
 import TuneIcon from '@mui/icons-material/Tune';
 import FilterPanel from './components/filter-panel/FilterPanel';
-import { signInWithPopup } from 'firebase/auth';
+import { UserCredential, signInWithPopup } from 'firebase/auth';
 import { auth, provider } from './config/firebase.config';
+import api from './config/api-config';
 
 const App: React.FunctionComponent = () => {
     const location = useLocation();
@@ -35,6 +36,33 @@ const App: React.FunctionComponent = () => {
         setFilterOpen(!filterOpen);
     }
 
+    const sendRegisterRequest = (
+        creds: UserCredential,
+        onSuccess: () => void, 
+        onFailure: () => void) => {
+        const request = {
+            uid: creds.user.uid,
+            email: creds.user.email,
+            displayName: creds.user.displayName
+        }
+
+        fetch(`${api.baseUrl}/auth`, {
+          method: 'POST',
+          body: JSON.stringify(request),
+          headers: {
+            "Content-Type": 'application/json'
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            onSuccess();
+          } else {
+            onFailure();
+          }
+        })
+        .catch(err => console.log(err))
+    }
+
     const tryLogin = () => {
         signInWithPopup(auth, provider)
         .then(data => {
@@ -47,7 +75,17 @@ const App: React.FunctionComponent = () => {
                         uid: data.user.uid ?? '',
                         isAnonymous: false
                     }
-                })
+                });
+                
+                sendRegisterRequest(
+                    data,
+                    () => {
+                        alert('You have been logged in successfully!');
+                    },
+                    () => {
+                        alert('The issue found on logging you in!');
+                    }
+                );
             }
         })
         .catch(err => console.error(err));

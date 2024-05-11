@@ -5,6 +5,6 @@ namespace Melody.BusinessLayer.Strategies
 {
     public interface IUploadStrategy
     {
-        Task<Result> UploadAsync(BaseDto dto, CancellationToken cancellationToken);
+        Task<Result> UploadAsync(HasCreatorDto dto, CancellationToken cancellationToken);
     }
 }

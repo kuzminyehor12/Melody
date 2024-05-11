@@ -2,13 +2,15 @@
 {
     public class UserEntity : BaseEntity
     {
+        public string Uid { get; set; }
+
         public string UserName { get; set; }
 
         public string Email { get; set; }
 
         public string? Image { get; set; }
 
-        public DateTime RegisteredAt { get; set; } = DateTime.Now;
+        public DateTime RegisteredAt { get; set; }
         
         public virtual CreatorEntity Creator { get; set; }
 

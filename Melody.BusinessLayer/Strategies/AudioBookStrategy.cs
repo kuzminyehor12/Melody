@@ -15,7 +15,7 @@ namespace Melody.BusinessLayer.Strategies
 
         }
 
-        public async Task<Result> UploadAsync(BaseDto dto, CancellationToken cancellationToken)
+        public async Task<Result> UploadAsync(HasCreatorDto dto, CancellationToken cancellationToken)
         {
             try
             {

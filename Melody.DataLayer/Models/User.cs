@@ -2,6 +2,8 @@
 {
     public class User : BaseModel
     {
+        public string Uid { get; set; }
+
         public string UserName { get; set; }
 
         public string Email { get; set; }

@@ -73,7 +73,7 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
           }
         })
         .catch(err => console.log(err))
-      }
+    }
 
     const createPlaylist = (e: any) => {
         e.preventDefault();

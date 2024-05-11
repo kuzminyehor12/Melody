@@ -2,18 +2,6 @@
 {
     public class CreatorEntity : BaseEntity
     {
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public string Email { get; set; }
-
-        public string? Image { get; set; }
-
-        public bool Verified { get; set; } = false;
-
-        public DateTime RegisteredAt { get; set; } = DateTime.Now;
-
         public virtual UserEntity User { get; set; }
 
         public virtual ICollection<PodcastEntity> Podcasts { get; set; }

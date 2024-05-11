@@ -33,9 +33,7 @@ namespace Melody.BusinessLayer.Mappings
                     mem.MapFrom(request => request.File.FileName);
                 })
                 .ForMember(playlist => playlist.Tags, mem => mem
-                    .MapFrom(request => request.Data.TagIds.Select(id => new Tag { Id = new Guid(id) })))
-                .ForMember(playlist => playlist.CreatorId, mem => mem
-                    .MapFrom(request => new Guid(request.Data.CreatorId)));
+                    .MapFrom(request => request.Data.TagIds.Select(id => new Tag { Id = new Guid(id) })));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Melody.BusinessLayer.Requests.Auth;
 using Melody.Shared;
 
-namespace Melody.BusinessLayer.Services
+namespace Melody.BusinessLayer.Interfaces
 {
     public interface IAuthService
     {

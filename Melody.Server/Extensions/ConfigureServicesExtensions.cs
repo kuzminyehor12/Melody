@@ -1,4 +1,5 @@
 ﻿using Melody.BusinessLayer.Interfaces;
+using Melody.BusinessLayer.Mappings;
 using Melody.BusinessLayer.Services;
 using Melody.DataLayer.Infastructure;
 using Melody.DataLayer.Interfaces;
@@ -32,6 +33,8 @@ namespace Melody.Server.Extensions
             services.AddTransient<IPodcastService, PodcastService>();
             services.AddTransient<IPlaylistService, PlaylistService>();
             services.AddTransient<IAudioBookCollectionService, AudioBookCollectionService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<ICreatorService, CreatorService>();
         }
     }
 }

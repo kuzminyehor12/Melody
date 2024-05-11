@@ -33,9 +33,7 @@ namespace Melody.BusinessLayer.Mappings
                 .ForMember(dto => dto.Filename, mem => mem
                     .MapFrom(request => request.File.FileName))
                 .ForMember(dto => dto.AudioBookCollectionId, mem => mem
-                    .MapFrom(request => request.Data.CollectionId))
-                .ForMember(dto => dto.CreatorId, mem => mem
-                    .MapFrom(request => new Guid(request.Data.CreatorId)));
+                    .MapFrom(request => request.Data.CollectionId));
 
             CreateMap<AudioBookDto, CreateAudioBookRequest>();
 

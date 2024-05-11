@@ -1,6 +1,6 @@
 ﻿namespace Melody.BusinessLayer.DTOs
 {
-    public class AudioItemDto : BaseDto
+    public class AudioItemDto : HasCreatorDto
     {
         public string Title { get; set; }
 
@@ -17,8 +17,6 @@
         public DateTime PublishedAt { get; set; }
 
         public int FollowersCount { get; set; }
-
-        public Guid CreatorId { get; set; }
 
         public string? DownloadUrl { get; set; }
 

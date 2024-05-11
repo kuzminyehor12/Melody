@@ -1,6 +1,6 @@
 ﻿namespace Melody.BusinessLayer.DTOs
 {
-    public class CollectionItemDto : BaseDto
+    public class CollectionItemDto : HasCreatorDto
     {
         public string Author { get; set; }
 
@@ -9,8 +9,6 @@
         public string? Coversheet { get; set; }
 
         public string Description { get; set; }
-
-        public Guid CreatorId { get; set; }
 
         public int FollowersCount { get; set; }
 

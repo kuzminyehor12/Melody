@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
+using Melody.BusinessLayer.Mappings;
 using Melody.BusinessLayer.Requests.Upload;
 using Melody.BusinessLayer.Strategies;
 using Melody.BusinessLayer.Tasks;
@@ -15,21 +16,30 @@ namespace Melody.BusinessLayer.Services
     {
         private readonly StrategyInjector _strategyInjector;
         private readonly IFileStorageService _fileStorageService;
+        private readonly ICreatorService _creatorService;
         private readonly IMapper _mapper;
 
-        public UploadService(StrategyInjector strategyInjector, IMapper mapper, IFileStorageService fileStorageService)
+        public UploadService(
+            StrategyInjector strategyInjector, 
+            IMapper mapper, 
+            IFileStorageService fileStorageService, 
+            ICreatorService creatorService)
         {
             _strategyInjector = strategyInjector;
             _mapper = mapper;
             _fileStorageService = fileStorageService;
+            _creatorService = creatorService;
         }
 
         private IUploadStrategy _uploadStrategy;
 
         public async Task<Result> UploadAudioAsync(UploadAudioRequest request, CancellationToken cancellationToken)
         {
-            BaseDto dto = CreateDto(request);
-       
+            HasCreatorDto dto = CreateDto(request);
+
+            var creatorId = await _creatorService.GetCreatorIdByUid(request.Data.CreatorId);
+            dto.CreatorId = creatorId;
+
             var result = await _uploadStrategy.UploadAsync(dto, cancellationToken);
             
             return await result.OnSuccess(GetUploadTask());
@@ -46,9 +56,9 @@ namespace Melody.BusinessLayer.Services
                 );
         }
 
-        private BaseDto CreateDto(UploadAudioRequest request)
+        private HasCreatorDto CreateDto(UploadAudioRequest request)
         {
-            BaseDto dto;
+            HasCreatorDto dto;
 
             switch (request.Data.Type)
             {

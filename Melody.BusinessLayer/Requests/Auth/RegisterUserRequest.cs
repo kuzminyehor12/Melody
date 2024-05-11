@@ -2,7 +2,7 @@
 {
     public class RegisterUserRequest
     {
-        public Guid Uid { get; set; }
+        public string Uid { get; set; }
 
         public string Email { get; set; }
 

@@ -13,9 +13,10 @@ namespace Melody.DataLayer.Infastructure
         {
         }
 
-        protected override Task<UserEntity> PopulateEntity(User entity)
+        protected override Task<UserEntity> PopulateEntity(User model)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<UserEntity>(model);
+            return Task.FromResult(entity);
         }
     }
 }

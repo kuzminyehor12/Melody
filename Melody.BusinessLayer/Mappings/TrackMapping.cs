@@ -38,9 +38,7 @@ namespace Melody.BusinessLayer.Mappings
                 .ForMember(dto => dto.GenreIds, mem => mem
                     .MapFrom(request => request.Data.GenreIds.Select(id => new Guid(id))))
                 .ForMember(dto => dto.DurationInMs, mem => mem
-                    .MapFrom(request => GetAudioDuration(request)))
-                .ForMember(dto => dto.CreatorId, mem => mem
-                    .MapFrom(request => new Guid(request.Data.CreatorId)));
+                    .MapFrom(request => GetAudioDuration(request)));
 
             CreateMap<TrackDto, CreateTrackRequest>();
 

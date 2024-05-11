@@ -14,7 +14,7 @@
 
         public int ListeningsCount { get; set; }
 
-        public DateTime PublishedAt { get; set; } = DateTime.Now;
+        public DateTime PublishedAt { get; set; }
 
         public Guid CreatorId { get; set; }
 

@@ -38,9 +38,12 @@ const Sidebar: React.FunctionComponent = () => {
                     <DefaultLink to='/search'>
                         <li onClick={doActive}><SearchIcon /> <span>Search</span></li>
                     </DefaultLink>
-                    <DefaultLink to='/my-library'>
-                        <li onClick={doActive}><LibraryMusicIcon /> <span>My Library</span></li>
-                    </DefaultLink>
+                    {
+                        !state?.currentUser?.isAnonymous &&
+                        <DefaultLink to='/my-library'>
+                            <li onClick={doActive}><LibraryMusicIcon /> <span>My Library</span></li>
+                        </DefaultLink>
+                    }
                 </ul>
             </div>
             <hr />

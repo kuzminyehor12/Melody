@@ -12,9 +12,10 @@ namespace Melody.DataLayer.Infastructure
         public CreatorRepository(MelodyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
-        protected override Task<CreatorEntity> PopulateEntity(Creator entity)
+        protected override Task<CreatorEntity> PopulateEntity(Creator model)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<CreatorEntity>(model);
+            return Task.FromResult(entity);
         }
     }
 }

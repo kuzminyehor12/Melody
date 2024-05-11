@@ -27,9 +27,7 @@ namespace Melody.BusinessLayer.Mappings
                 .ForMember(dto => dto.CreatedAt, mem => mem
                     .MapFrom(_ => DateTime.UtcNow))
                 .ForMember(dto => dto.Description, mem => mem
-                    .MapFrom(request => request.Data.Description))
-                .ForMember(dto => dto.CreatorId, mem => mem
-                    .MapFrom(request => new Guid(request.Data.CreatorId)));
+                    .MapFrom(request => request.Data.Description));
 
             CreateMap<AlbumDto, CreateAlbumRequest>();
 

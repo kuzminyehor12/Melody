@@ -14,8 +14,6 @@ namespace Melody.BusinessLayer.Mappings
         protected override void RegisterMapping()
         {
             CreateMap<RegisterUserRequest, User>()
-                .ForMember(u => u.Id, mem => mem
-                    .MapFrom(request => request.Uid))
                 .ForMember(u => u.UserName, mem => mem
                     .MapFrom(request => request.DisplayName))
                 .ForMember(u => u.RegisteredAt, mem => mem

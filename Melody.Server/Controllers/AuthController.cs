@@ -1,7 +1,7 @@
-﻿using Melody.BusinessLayer.Requests.Auth;
-using Melody.BusinessLayer.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Melody.BusinessLayer.Interfaces;
+using Melody.BusinessLayer.Requests.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Melody.Server.Controllers
 {
