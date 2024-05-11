@@ -8,4 +8,5 @@ export type UploadAudioRequest = {
     description: string | undefined | null;
     genreIds: string[];
     collectionId: string | undefined | null;
+    creatorId: string;
 }

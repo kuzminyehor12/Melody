@@ -4,4 +4,5 @@ export type CreatePlaylistRequest = {
     description: string;
     isPublic: boolean;
     tagIds?: string[];
+    creatorId: string;
 }

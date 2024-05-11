@@ -14,6 +14,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import MultiSelect, { Option } from '../../common/components/multi-select/MultiSelect';
 import api from '../../config/api-config';
+import { useGlobalContext } from '../../contexts/GlobalContext';
 
 const darkTheme = createTheme({
   palette: {
@@ -29,6 +30,7 @@ type AlbumOption = {
 type UploadAudioFormProps = DialogProps;
 
 const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened, setOpened }) => {
+  const { state } = useGlobalContext() ?? { }
   const [selectedGenres, setSelectedGenres] = useState<Option[]>([]);
   const [genres, setGenres] = useState<Option[]>([]);
   const [albums, setAlbums] = useState<AlbumOption[]>();
@@ -108,7 +110,8 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
       description: '', 
       type: 0, 
       genreIds: [], 
-      collectionId: null 
+      collectionId: null,
+      creatorId: state?.currentUser?.uid ?? ''
   });
 
   const handleClose = () => {
@@ -119,7 +122,8 @@ const UploadAudioForm: React.FunctionComponent<UploadAudioFormProps> = ({ opened
       description: '', 
       type: 0, 
       genreIds: [], 
-      collectionId: null 
+      collectionId: null,
+      creatorId: ''
     });
     setGenres([]);
     setSelectedGenres([]);

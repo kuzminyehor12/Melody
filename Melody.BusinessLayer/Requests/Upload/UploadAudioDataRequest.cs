@@ -15,5 +15,7 @@ namespace Melody.BusinessLayer.Requests.Upload
         public string[] GenreIds { get; set; }
 
         public string? CollectionId { get; set; }
+
+        public string CreatorId { get; set; }
     }
 }

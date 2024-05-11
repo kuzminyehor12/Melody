@@ -1,4 +1,4 @@
-import { ChangeEvent, createRef, useState } from 'react';
+import { ChangeEvent, createRef, useEffect, useState } from 'react';
 import AudioList from '../../common/components/audio-list/AudioList';
 import { AudioItem } from '../../common/models/AudioItem';
 import './Playlist.scss';
@@ -7,20 +7,23 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { CreatePlaylistRequest } from '../../common/requests/CreatePlaylistRequest';
 import api from '../../config/api-config';
-import { defaultImageSrc } from '../../contexts/GlobalContext';
+import { defaultImageSrc, useGlobalContext } from '../../contexts/GlobalContext';
 
 type PlaylistProps = {
     editMode?: boolean;
 }
 
 const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
+    const { state } = useGlobalContext() ?? { }
     const [request, setRequest] = useState<CreatePlaylistRequest>({ 
         title: '',
         coversheet: null, 
         description: '',
         tagIds: [],
-        isPublic: false
+        isPublic: false,
+        creatorId: state?.currentUser?.uid ?? ''
     });
+
     const fileInputRef = createRef<HTMLInputElement>();
     const [imageSrc, setImageSrc] = useState<string>('');
 
