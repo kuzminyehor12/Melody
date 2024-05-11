@@ -17,6 +17,8 @@ namespace Melody.BusinessLayer.Mappings
         protected override void RegisterMapping()
         {
             CreateMap<Playlist, PlaylistDto>()
+                .ForMember(dto => dto.PlaylistedTrackIds, mem => mem
+                    .MapFrom(p => p.PlaylistedTracks.Select(t => t.Id)))
                 .ReverseMap();
 
             CreateMap<CreatePlaylistRequest, Playlist>()

@@ -110,7 +110,7 @@ namespace Melody.DataLayer.Infrastructure
         {
             var entity = await All()
                 .IncludeAll(navigationPathProperty)
-                .FirstAsync(MapExpression(predicate), cancellationToken);
+                .FirstOrDefaultAsync(MapExpression(predicate), cancellationToken);
 
             return _mapper.Map<TModel>(entity);
         }
@@ -137,7 +137,7 @@ namespace Melody.DataLayer.Infrastructure
 
         private IQueryable<TEntity> All()
         {
-            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted);
+            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted).AsNoTracking();
         }
 
         private Expression<Func<TEntity, bool>> MapExpression(Expression<Func<TModel, bool>> predicate)

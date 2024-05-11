@@ -6,6 +6,8 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import IncludeIntoPlaylistForm from '../../../components/include-into-playlist-form/IncludeIntoPlaylistForm';
 
 type AudioListItemProps = {
     audioItem: AudioItem;
@@ -15,6 +17,11 @@ type AudioListItemProps = {
 const AudioListItem: React.FunctionComponent<AudioListItemProps> = ({ audioItem, onClick }) => {
     const loc = useLocation();
     const { state } = useGlobalContext() ?? { };
+    const [openForm, setOpenForm] = useState(false);
+
+    const handleDownload = (e: any) => {
+        e.stopPropagation();
+    }
 
     const isCurrentItem = state?.current?.id === audioItem.id;
 
@@ -30,12 +37,16 @@ const AudioListItem: React.FunctionComponent<AudioListItemProps> = ({ audioItem,
                 </div>
             </div>
             <div className="audio-controls">
-                { loc.pathname.includes('search') && <AddCircleOutlineIcon /> }
-                <DownloadIcon />
+                {(!state?.currentUser?.isAnonymous && loc.pathname.includes('search')) && <span onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenForm(true)
+                }}><AddCircleOutlineIcon /></span> }
+                {!state?.currentUser?.isAnonymous && <a href={audioItem.audioSrc} download={true}><DownloadIcon /></a>}
             </div>
             <div className="audio-duration">
                 <span>{toDurationString(Number.isNaN(audioItem.duration) ? 0 : (audioItem.duration ?? 0))}</span>
             </div>
+            <IncludeIntoPlaylistForm track={audioItem} opened={openForm} setOpened={setOpenForm}/>
         </div>
     );
 }

@@ -33,6 +33,11 @@
         align-items: end;
         justify-content: end;
         column-gap: 10px;
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
     }
 
     &:hover {

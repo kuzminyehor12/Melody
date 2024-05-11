@@ -8,6 +8,7 @@ using Melody.DataLayer.Models;
 using Melody.Services.Interfaces;
 using Melody.Shared;
 using Melody.Shared.Extensions;
+using System.Linq;
 
 namespace Melody.BusinessLayer.Services
 {
@@ -109,18 +110,37 @@ namespace Melody.BusinessLayer.Services
 
         public async Task<Result> IncludeIntoPlaylistAsync(IncludeTrackIntoPlaylistRequest request, CancellationToken cancellationToken = default)
         {
-            var trackToInclude = await _context.Tracks.FirstAsync(t => t.Id == request.TrackId, cancellationToken: cancellationToken);
+            var trackToInclude = await _context.Tracks.FirstAsync(t => t.Id.ToString() == request.TrackId.ToString(), cancellationToken: cancellationToken);
+            Result result = Result.Success();
 
-            IEnumerable<string> includeProperties = new List<string>
+            if (trackToInclude is not null)
             {
-               $"{nameof(Playlist.PlaylistedTracks)}"
-            };
+                IEnumerable<string> includeProperties = new List<string>
+                {
+                   $"{nameof(Playlist.PlaylistedTracks)}"
+                };
 
-            var result = await _context.Playlists.UpdateAsync(
-                p => p.Id == request.PlaylistId,
-                p => p.PlaylistedTracks.Add(trackToInclude),
-                includeProperties,
-                cancellationToken: cancellationToken);
+                foreach (var id in request.PlaylistIds)
+                {
+                    result = await _context.Playlists.UpdateAsync(
+                        p => p.Id.ToString() == id,
+                        p => p.PlaylistedTracks.Add(trackToInclude),
+                        includeProperties,
+                        cancellationToken: cancellationToken
+                    );
+                }
+            }
+            else
+            {
+                foreach (var id in request.PlaylistIds)
+                {
+                    result = await _context.Playlists.UpdateAsync(
+                        p => p.Id.ToString() == id,
+                        p => p.ExternalIds = p.ExternalIds.Concat(new string[] { request.TrackId.ToString() }).ToArray(),
+                        cancellationToken: cancellationToken
+                    );
+                }
+            }
 
             return await SaveChangesAsync(result);
         }

@@ -66,7 +66,8 @@ namespace Melody.BusinessLayer.Services
             var navigationProperties = new List<string>
             {
                  $"{nameof(User.Creator)}",
-                 $"{nameof(User.Creator)}.{nameof(Creator.Playlists)}"
+                 $"{nameof(User.Creator)}.{nameof(Creator.Playlists)}",
+                 $"{nameof(User.Creator)}.{nameof(Creator.Playlists)}.{nameof(Playlist.PlaylistedTracks)}",
             };
 
             var user = await _context.Users.FirstAsync(u => u.Uid == uid, navigationProperties, cancellationToken);

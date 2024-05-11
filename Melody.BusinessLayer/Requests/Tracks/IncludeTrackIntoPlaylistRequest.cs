@@ -2,8 +2,8 @@
 {
     public class IncludeTrackIntoPlaylistRequest
     {
-        public Guid TrackId { get; set; }
+        public object TrackId { get; set; }
 
-        public Guid? PlaylistId { get; set; }
+        public string[] PlaylistIds { get; set; }
     }
 }

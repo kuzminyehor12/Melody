@@ -18,6 +18,8 @@ namespace Melody.DataLayer.Models
 
         public bool IsPublic { get; set; } = true;
 
+        public string[] ExternalIds { get; set; }
+
         public virtual ICollection<Track> PlaylistedTracks { get; set; }
 
         public virtual ICollection<User> Followers { get; set; }
