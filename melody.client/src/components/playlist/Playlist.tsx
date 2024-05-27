@@ -5,17 +5,20 @@ import './Playlist.scss';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 import { CreatePlaylistRequest } from '../../common/requests/CreatePlaylistRequest';
 import api from '../../config/api-config';
 import { defaultImageSrc, useGlobalContext } from '../../contexts/GlobalContext';
 import { useParams } from 'react-router-dom';
+import { CollectionItem } from '../../common/models/CollectionItem';
+import { toDurationString } from '../../common/utils/stringUtils';
 
 type PlaylistProps = {
     editMode?: boolean;
 }
 
 const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
-    const { state } = useGlobalContext() ?? { }
+    const { state, setState } = useGlobalContext() ?? { }
     const { id } = useParams();
     const [request, setRequest] = useState<CreatePlaylistRequest>({ 
         title: '',
@@ -25,6 +28,8 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
         isPublic: false,
         creatorId: state?.currentUser?.uid ?? ''
     });
+    const [audios, setAudios] = useState<AudioItem[]>([]);
+    const [collectionItem, setCollectionItem] = useState<CollectionItem>();
 
     const fileInputRef = createRef<HTMLInputElement>();
     const [imageSrc, setImageSrc] = useState<string>('');
@@ -44,6 +49,15 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
             } as CreatePlaylistRequest);
         }
     };
+
+    const togglePlay = () => {
+        if (state && setState) {
+            setState({
+                ...state,
+                isPlaying: !state.isPlaying
+            });
+        }
+    }
 
     const handleButtonClick = () => {
         if (fileInputRef.current) {
@@ -91,13 +105,58 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
             )
         }
     }
+
+    const fetchAudios = async () => {
+        const response = await fetch(`${api.baseUrl}/playlists/${id}/tracks`);
+        const json = await response.json();
+        setAudios(json.map(function (a: any): AudioItem {
+            return {
+                id: a.id ?? a.externalId,
+                title: a.title,
+                audioSrc: a.downloadUrl,
+                author: a.author,
+                imageSrc: a.coversheetUrl,
+                duration: a.durationInMs,
+                progress: 0
+            };
+        }) ?? []);
+    }
+
+    const fetchPlaylistData = async () => {
+        const response = await fetch(`${api.baseUrl}/playlists/${id}`);
+        const p = await response.json();
+        console.log(p);
+        setCollectionItem({
+            id: p.id,
+            title: p.title,
+            coversheetSrc: p.coversheetUrl,
+            author: p.author,
+            description: p.description
+        });
+    }
+
+    useEffect(() => {
+        fetchAudios();
+        fetchPlaylistData();
+    }, [])
+
+    useEffect(() => {
+        if (collectionItem?.coversheetSrc) {
+            setImageSrc(collectionItem?.coversheetSrc);
+        }
+    }, [collectionItem?.coversheetSrc])
     
     return (
         <div className='Playlist'>
             <div className='playlist-info'>
                 <div className="playlist-img">
-                    <img
-                        onClick={handleButtonClick}
+                    <img                        
+                        onClick={() => {
+                                if (editMode) {
+                                    handleButtonClick();
+                                }
+                        }}
+
                         src={!imageSrc ? defaultImageSrc : imageSrc}
                         alt="Playlist Image"
                         style={{ maxWidth: '300px', maxHeight: '300px' }}
@@ -123,7 +182,7 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
                                 } as CreatePlaylistRequest);
                             }}
                          /> : 
-                        'Liked Songs'}
+                        collectionItem?.title ?? 'Liked Songs' }
                     </h1>
                     <p className='playlist-desc'>
                         { editMode ? 
@@ -137,14 +196,14 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
                                 } as CreatePlaylistRequest);
                             }}
                          /> : 
-                        'Music for concentration'}
+                         collectionItem?.description ?? 'Music for concentration' }
                     </p>
                     <div className="playlist-extra">
-                        <span>Provided by Melody</span>
+                        <span>Provided by {collectionItem?.author ?? 'Me'}</span>
                         <span>&#9702;</span>
-                        <span>100 songs, 2hr</span>
+                        <span>{audios.length}, {toDurationString(audios.map(a => a.duration).reduce((prev, cur) => (prev ?? 0) + (cur ?? 0), 0) ?? 0)}</span>
                         <span>&#9702;</span>
-                        <span>600 000 likes</span>
+                        <span>100 000 likes</span>
                     </div>
                     {editMode && 
                         <div className="playlist-checkbox">
@@ -165,7 +224,26 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
             </div>
             <div className="playlist-controls">
                 <div className="play-btn">
-                    <PlayArrowIcon />
+                    { state?.isPlaying ? 
+                        <PauseIcon onClick={togglePlay} /> : 
+                        <PlayArrowIcon onClick={() => {
+                            const setQueue = (id: string) => {
+                                if (setState) {
+                                    const currentIdx = audios.findIndex(a => a.id == id);
+                                    setState({
+                                        ...state,
+                                        isPlaying: true,
+                                        searchString: state?.searchString ?? '',
+                                        current: audios[currentIdx],
+                                        queue: audios.slice(currentIdx, audios.length)
+                                    });
+                                }
+                            }
+
+                            setQueue(audios[0].id);
+                            togglePlay();
+                        }} />
+                    }
                 </div>
                 <div className="follow-btn">
                     <FavoriteBorderIcon />
@@ -175,7 +253,7 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
                 </div>
             </div>
             <div className="playlist-items">
-                <AudioList audios={populateAudios()} />
+                <AudioList audios={audios.length > 0 ? audios : populateAudios()} />
             </div>
         </div>
     );

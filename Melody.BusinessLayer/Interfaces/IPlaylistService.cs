@@ -13,5 +13,9 @@ namespace Melody.BusinessLayer.Interfaces
         Task<IEnumerable<PlaylistDto>> GetBySearchStringAsync(string searchString, CancellationToken cancellationToken = default);
 
         Task<Result> AddAsync(CreatePlaylistRequest request, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<AudioItemDto>> GetTracksByPlaylistId(Guid playlistId, CancellationToken cancellationToken = default);
+
+        Task<PlaylistDto> GetPlaylistByIdAsync(Guid playlistId, CancellationToken cancellationToken = default);
     }
 }

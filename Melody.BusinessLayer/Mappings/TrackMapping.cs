@@ -22,6 +22,8 @@ namespace Melody.BusinessLayer.Mappings
         protected override void RegisterMapping()
         {
             CreateMap<Track, TrackDto>()
+               .ForMember(dto => dto.Coversheet, mem => mem
+                    .MapFrom(track => track.Album.Coversheet))
                .ReverseMap();
 
             CreateMap<UploadAudioRequest, TrackDto>()

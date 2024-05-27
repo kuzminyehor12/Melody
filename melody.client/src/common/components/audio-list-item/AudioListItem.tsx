@@ -41,7 +41,7 @@ const AudioListItem: React.FunctionComponent<AudioListItemProps> = ({ audioItem,
                     e.stopPropagation();
                     setOpenForm(true)
                 }}><AddCircleOutlineIcon /></span> }
-                {!state?.currentUser?.isAnonymous && <a href={audioItem.audioSrc} download={true}><DownloadIcon /></a>}
+                {!state?.currentUser?.isAnonymous && <a href={audioItem.audioSrc} download target='_blank'><DownloadIcon /></a>}
             </div>
             <div className="audio-duration">
                 <span>{toDurationString(Number.isNaN(audioItem.duration) ? 0 : (audioItem.duration ?? 0))}</span>

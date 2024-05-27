@@ -1,9 +1,6 @@
 ﻿using Melody.BusinessLayer.Interfaces;
 using Melody.BusinessLayer.Requests.Playlists;
-using Melody.BusinessLayer.Requests.Upload;
-using Melody.BusinessLayer.Services;
 using Melody.BusinessLayer.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -55,6 +52,21 @@ namespace Melody.Server.Controllers
         {
             var playlists = await _playlistService.GetCreatedPlaylistsByUidAsync(uid, cancellationToken);
             return Ok(playlists);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPlaylistById(string id, CancellationToken cancellationToken)
+        {
+            var playlist = await _playlistService.GetPlaylistByIdAsync(Guid.Parse(id), cancellationToken);
+            return Ok(playlist);
+        }
+
+        [HttpGet("{id}/tracks")]
+        public async Task<IActionResult> GetTracksFromPlaylist(string id, CancellationToken cancellationToken)
+        {
+            var tracks = await _playlistService.GetTracksByPlaylistId(Guid.Parse(id), cancellationToken);
+            return Ok(tracks);
         }
     }
 }
