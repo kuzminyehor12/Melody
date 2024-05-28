@@ -185,6 +185,7 @@ namespace Melody.BusinessLayer.Services
             return new List<string>
             {
                 $"{nameof(Playlist.Creator)}",
+                $"{nameof(Playlist.Creator)}.{nameof(Creator.User)}",
                 $"{nameof(Playlist.Followers)}",
                 $"{nameof(Playlist.PlaylistedTracks)}",
                 $"{nameof(Playlist.Tags)}"

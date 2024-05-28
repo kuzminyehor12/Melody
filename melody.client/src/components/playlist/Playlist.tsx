@@ -136,8 +136,10 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
     }
 
     useEffect(() => {
-        fetchAudios();
-        fetchPlaylistData();
+        if (!editMode) {
+            fetchAudios();
+            fetchPlaylistData();
+        }
     }, [])
 
     useEffect(() => {
