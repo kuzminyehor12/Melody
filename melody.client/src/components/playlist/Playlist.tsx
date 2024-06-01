@@ -122,10 +122,9 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
         }) ?? []);
     }
 
-    const fetchPlaylistData = async () => {
+    const fetchPlaylistData = async () => {        
         const response = await fetch(`${api.baseUrl}/playlists/${id}`);
         const p = await response.json();
-        console.log(p);
         setCollectionItem({
             id: p.id,
             title: p.title,
@@ -229,21 +228,19 @@ const Playlist: React.FunctionComponent<PlaylistProps> = ({ editMode }) => {
                     { state?.isPlaying ? 
                         <PauseIcon onClick={togglePlay} /> : 
                         <PlayArrowIcon onClick={() => {
-                            const setQueue = (id: string) => {
+                            const setQueue = () => {
                                 if (setState) {
-                                    const currentIdx = audios.findIndex(a => a.id == id);
                                     setState({
                                         ...state,
                                         isPlaying: true,
                                         searchString: state?.searchString ?? '',
-                                        current: audios[currentIdx],
-                                        queue: audios.slice(currentIdx, audios.length)
+                                        current: audios[0],
+                                        queue: audios.slice(0, audios.length)
                                     });
                                 }
                             }
 
-                            setQueue(audios[0].id);
-                            togglePlay();
+                            setQueue();
                         }} />
                     }
                 </div>

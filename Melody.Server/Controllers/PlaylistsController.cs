@@ -2,8 +2,10 @@
 using Melody.BusinessLayer.Requests.Playlists;
 using Melody.BusinessLayer.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net;
 
 namespace Melody.Server.Controllers
 {
@@ -58,6 +60,11 @@ namespace Melody.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlaylistById(string id, CancellationToken cancellationToken)
         {
+            if (int.TryParse(id, out _))
+            {
+                return Ok();
+            }
+
             var playlist = await _playlistService.GetPlaylistByIdAsync(Guid.Parse(id), cancellationToken);
             return Ok(playlist);
         }
@@ -65,6 +72,11 @@ namespace Melody.Server.Controllers
         [HttpGet("{id}/tracks")]
         public async Task<IActionResult> GetTracksFromPlaylist(string id, CancellationToken cancellationToken)
         {
+            if (int.TryParse(id, out _))
+            {
+                return Ok();
+            }
+
             var tracks = await _playlistService.GetTracksByPlaylistId(Guid.Parse(id), cancellationToken);
             return Ok(tracks);
         }

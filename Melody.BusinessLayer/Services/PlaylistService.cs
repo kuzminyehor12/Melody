@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Melody.BusinessLayer.DTOs;
 using Melody.BusinessLayer.Interfaces;
+using Melody.BusinessLayer.Mappings;
 using Melody.BusinessLayer.Requests.Playlists;
 using Melody.BusinessLayer.Tasks;
 using Melody.BusinessLayer.Utils;
@@ -17,20 +18,26 @@ namespace Melody.BusinessLayer.Services
     {
         private readonly IFileStorageService _fileStorageService;
         private readonly IDeezerApiClient _deezerApiClient;
+        private readonly ICreatorService _creatorService;
 
         public PlaylistService(
-            RepositoryContext context, 
-            IMapper mapper, 
-            IFileStorageService fileStorageService, 
-            IDeezerApiClient deezerApiClient) : base(context, mapper)
+            RepositoryContext context,
+            IMapper mapper,
+            IFileStorageService fileStorageService,
+            IDeezerApiClient deezerApiClient,
+            ICreatorService creatorService) : base(context, mapper)
         {
             _fileStorageService = fileStorageService;
             _deezerApiClient = deezerApiClient;
+            _creatorService = creatorService;
         }
 
         public async Task<Result> AddAsync(CreatePlaylistRequest request, CancellationToken cancellationToken = default)
         {
             var playlist = _mapper.Map<Playlist>(request);
+            var creatorId = await _creatorService.GetCreatorIdByUid(request.Data.CreatorId);
+            playlist.CreatorId = creatorId;
+
             var result = await _context.Playlists.CreateAsync(playlist, cancellationToken);
             result = await result.OnSuccess(() => SaveChangesAsync(result));
             return await result.OnSuccess(GetUploadTask());

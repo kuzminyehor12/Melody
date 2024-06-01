@@ -2,7 +2,7 @@
 {
     public class BaseDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; } = null;
     }
 
     public class HasCreatorDto : BaseDto

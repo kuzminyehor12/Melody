@@ -33,7 +33,7 @@ namespace Melody.BusinessLayer.Services
 
             IEnumerable<string> includeProperties = new List<string>
             { 
-                    $"{nameof(Playlist.PlaylistedTracks)}"
+                $"{nameof(Playlist.PlaylistedTracks)}"
             };
 
             var result = await _context.Playlists.UpdateAsync(
